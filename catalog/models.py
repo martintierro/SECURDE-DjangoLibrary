@@ -84,21 +84,9 @@ class Author(models.Model):
         return f'{self.last_name}, {self.first_name}'
 
 
-class User(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
-    ID_number = models.CharField(max_length=8)
-
-    def __str__(self):
-        return f'{self.ID_number}'
-
-
 class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     text = models.CharField(max_length=2000)
-    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
