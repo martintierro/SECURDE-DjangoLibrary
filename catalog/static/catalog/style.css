@@ -1,15 +1,18 @@
-/*@font-face {*/
-/*    font-family: Poppins;*/
-/*    src: url(https://fonts.googleapis.com/css?family=Poppins&display=swap)*/
-/*}*/
-
-/*#navTxt{*/
-/*    font-family: Poppins;*/
-/*    font-size: 50px;*/
-/*    font-weight: 700;*/
-/*    font-style: normal;*/
-/*}*/
-
-div{
-    background: orange;
+@font-face {
+   font-family: Poppins, sans-serif;
+   src: url(https://fonts.googleapis.com/css?family=Poppins&display=swap)
 }
+
+html, body{
+    font-family: Poppins, sans-serif;
+}
+
+#navTxt{
+   font-size: 4rem;
+   font-weight: 700;
+   font-style: normal;
+}
+
+/* div{
+    background: orange;
+} */
