@@ -39,14 +39,18 @@ legend{
     font-size: 1rem;
 }
 
-input{
+.has-float-label{
+    width: 300px;
+    margin: 10px 0 10px 0;
+}
+
+.form-item{
     /*background: darkseagreen;*/
     font-size: 0.7rem;
     width: 300px;
     height: 10%;
     border: 0;
     border-bottom: 1px solid #544aff;
-
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -65,4 +69,5 @@ input[type=number] {
     color: white;
     font-family: PT Sans, sans-serif;
     font-size: 0.9rem;
+    width: 300px;
 }

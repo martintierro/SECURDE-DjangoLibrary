@@ -3,6 +3,7 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link href="https://cdn.rawgit.com/tonystar/bootstrap-float-label/v4.0.1/dist/bootstrap-float-label.min.css" rel="stylesheet">
 <link href="{%  static 'catalog/style.css' %}" rel="stylesheet">
 
 
@@ -71,16 +72,32 @@
     <form>
         <div class="row h-75">
             <div class="col text-center my-auto" id="register">
-                <fieldset id="registerForm">
-                    <legend>USER INFORMATION</legend>
-                    <div><label><input class="p-3" type="number" placeholder="ID"></label></div>
-                    <div><label><input class="p-3" type="text" placeholder="FIRST NAME"></label></div>
-                    <div><label><input class="p-3" type="text" placeholder="LAST NAME"></label></div>
-                    <div><label><input class="p-3" type="email" placeholder="EMAIL"></label></div>
-                    <div><label><input class="p-3" type="password" placeholder="PASSWORD"></label></div>
-                    <div><label><input class="p-3" type="password" placeholder="CONFIRM PASSWORD"></label></div>
-                    <a class="p-3" id="registerBTN" href="#">REGISTER</a>
-                </fieldset>
+                  <legend>USER INFORMATION</legend>
+                  <div class="has-float-label mx-auto">
+                    <input class="form-control form-item" type="text" placeholder=" "/>
+                    <label>ID</label>
+                  </div>
+                  <div class="has-float-label mx-auto">
+                    <input class="form-control form-item" type="text" placeholder=" "/>
+                    <label>FIRSTNAME</label>
+                  </div>
+                  <div class="has-float-label mx-auto">
+                    <input class="form-control form-item" type="text" placeholder=" "/>
+                    <label>LASTNAME</label>
+                  </div>
+                  <div class="has-float-label mx-auto">
+                    <input class="form-control form-item" type="email" placeholder=" "/>
+                    <label>EMAIL</label>
+                  </div>
+                  <div class="has-float-label mx-auto">
+                    <input class="form-control form-item" type="password" placeholder=" "/>
+                    <label>PASSWORD</label>
+                  </div>
+                  <div class="has-float-label mx-auto">
+                    <input class="form-control form-item" type="password" placeholder=" "/>
+                    <label>CONFIRM PASSWORD</label>
+                  </div>
+                  <button type="submit" class="p-3 btn" id="registerBTN">REGISTER</button>
             </div>
         </div>
     </form>
