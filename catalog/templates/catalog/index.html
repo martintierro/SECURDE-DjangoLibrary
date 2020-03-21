@@ -6,12 +6,32 @@
 <link href="{%  static 'catalog/style.css' %}" rel="stylesheet">
 
 
-<nav class="navbar navbar-default border border-top-0 border-left-0 border-right-0">
-    <div class="container-fluid">
-        <a class="navbar-brand mx-auto font-weight-bold" id="navTxt">library</a>
+{#<nav class="navbar navbar-default border border-top-0 border-left-0 border-right-0">#}
+{#    <div class="container-fluid">#}
+{#        <a class="navbar-brand mx-auto font-weight-bold" id="navTxt">library</a>#}
+{#    </div>#}
+{#</nav>#}
+<nav class="navbar navbar-expand-lg navbar-light" id="userNav">
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">SIGN UP</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">LOG IN</a>
+            </li>
+        </ul>
     </div>
 </nav>
-<nav class="navbar navbar-expand-lg navbar-light">
+
+<section>
+    <div class="container-fluid">
+        <div class="font-weight-bold text-center" id="navTxt"><a>library</a></div>
+{#        <a class="navbar-brand mx-auto font-weight-bold" id="navTxt">library</a>#}
+    </div>
+</section>
+
+<nav class="navbar navbar-expand-lg navbar-light" id="libNav">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -40,13 +60,28 @@
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <fieldset>
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          </fieldset>
+{#        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>#}
       </form>
     </div>
 </nav>
 <div class="container-fluid">
-    <div>
-
-    </div>
+    <form>
+        <div class="row h-75">
+            <div class="col text-center my-auto" id="register">
+                <fieldset id="registerForm">
+                    <legend>USER INFORMATION</legend>
+                    <div><label><input class="p-3" type="number" placeholder="ID"></label></div>
+                    <div><label><input class="p-3" type="text" placeholder="FIRST NAME"></label></div>
+                    <div><label><input class="p-3" type="text" placeholder="LAST NAME"></label></div>
+                    <div><label><input class="p-3" type="email" placeholder="EMAIL"></label></div>
+                    <div><label><input class="p-3" type="password" placeholder="PASSWORD"></label></div>
+                    <div><label><input class="p-3" type="password" placeholder="CONFIRM PASSWORD"></label></div>
+                    <a class="p-3" id="registerBTN" href="#">REGISTER</a>
+                </fieldset>
+            </div>
+        </div>
+    </form>
 </div>
