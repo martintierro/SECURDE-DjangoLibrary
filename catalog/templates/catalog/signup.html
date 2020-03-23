@@ -1,0 +1,40 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}<title>Library</title>{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <form>
+      <div class="row h-75">
+          <div class="col text-center my-auto" id="register">
+                <legend>USER INFORMATION</legend>
+                <div class="has-float-label mx-auto">
+                  <input class="form-control form-item" type="text" placeholder=" "/>
+                  <label>ID</label>
+                </div>
+                <div class="has-float-label mx-auto">
+                  <input class="form-control form-item" type="text" placeholder=" "/>
+                  <label>FIRSTNAME</label>
+                </div>
+                <div class="has-float-label mx-auto">
+                  <input class="form-control form-item" type="text" placeholder=" "/>
+                  <label>LASTNAME</label>
+                </div>
+                <div class="has-float-label mx-auto">
+                  <input class="form-control form-item" type="email" placeholder=" "/>
+                  <label>EMAIL</label>
+                </div>
+                <div class="has-float-label mx-auto">
+                  <input class="form-control form-item" type="password" placeholder=" "/>
+                  <label>PASSWORD</label>
+                </div>
+                <div class="has-float-label mx-auto">
+                  <input class="form-control form-item" type="password" placeholder=" "/>
+                  <label>CONFIRM PASSWORD</label>
+                </div>
+                <button type="submit" class="p-3 btn" id="registerBTN">REGISTER</button>
+          </div>
+      </div>
+  </form>
+</div>
+{% endblock %}
