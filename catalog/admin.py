@@ -1,8 +1,9 @@
 from django.contrib import admin
+from django.contrib.admin import AdminSite
 from .models import Publisher, Author, Book, BookInstance, Review
 
 # Register your models here.
-admin.site.register(Review)
+# admin.site.register(Review)
 
 class BookInline(admin.TabularInline):
     model = Book
@@ -17,7 +18,7 @@ class AuthorAdmin(admin.ModelAdmin):
     fields = ['first_name', 'last_name']
     inlines = [BookInline]
 
-admin.site.register(Author, AuthorAdmin)
+# admin.site.register(Author, AuthorAdmin)
 
 class BooksInstanceInline(admin.TabularInline):
     model = BookInstance
@@ -40,5 +41,18 @@ class BookInstanceAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(Book, BookAdmin)
-admin.site.register(BookInstance, BookInstanceAdmin)
+# admin.site.register(Book, BookAdmin)
+# admin.site.register(BookInstance, BookInstanceAdmin)
+
+class LibraryManagerSite(AdminSite):
+    site_header = "Library Manager"
+    site_title = "Library Manager Portal"
+    index_title = "Welcome to Library Manager Portal"
+
+library_manager_site = LibraryManagerSite(name='event_admin')
+
+
+library_manager_site.register(Review)
+library_manager_site.register(Book, BookAdmin)
+library_manager_site.register(BookInstance, BookInstanceAdmin)
+library_manager_site.register(Author, AuthorAdmin)
