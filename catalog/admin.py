@@ -49,7 +49,7 @@ class LibraryManagerSite(AdminSite):
     site_title = "Library Manager Portal"
     index_title = "Welcome to Library Manager Portal"
 
-library_manager_site = LibraryManagerSite(name='event_admin')
+library_manager_site = LibraryManagerSite(name='library_manager')
 
 
 library_manager_site.register(Review)
