@@ -1,31 +1,36 @@
 {% extends "catalog/base.html" %}
 
-{% block title %}<title>Library</title>{% endblock %}
+{% block title %}<title>Sign Up</title>{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
-  <form>
+  <form action="{% url 'signup' %}" method="POST">
+    {% csrf_token %}
       <div class="row h-75">
           <div class="col text-center my-auto" id="register">
                 <legend>USER INFORMATION</legend>
                 <div class="has-float-label mx-auto">
-                  <input class="form-control form-item" type="text" placeholder="ID"/>
+                  <input class="form-control form-item" name="ID_number" type="text" placeholder="ID"/>
                   <!-- <label>ID</label> -->
                 </div>
                 <div class="has-float-label mx-auto">
-                  <input class="form-control form-item" type="text" placeholder="FIRSTNAME"/>
+                  <input class="form-control form-item" name="username" type="text" placeholder="USERNAME"/>
+                  <!-- <label>ID</label> -->
+                </div>
+                <div class="has-float-label mx-auto">
+                  <input class="form-control form-item" name="first_name" type="text" placeholder="FIRSTNAME"/>
                   <!-- <label>FIRSTNAME</label> -->
                 </div>
                 <div class="has-float-label mx-auto">
-                  <input class="form-control form-item" type="text" placeholder="LASTNAME"/>
+                  <input class="form-control form-item" name="last_name" type="text" placeholder="LASTNAME"/>
                   <!-- <label>LASTNAME</label> -->
                 </div>
                 <div class="has-float-label mx-auto">
-                  <input class="form-control form-item" type="email" placeholder="EMAIL"/>
+                  <input class="form-control form-item" name="email" type="email" placeholder="EMAIL"/>
                   <!-- <label>EMAIL</label> -->
                 </div>
                 <div class="has-float-label mx-auto">
-                  <input class="form-control form-item" type="password" placeholder="PASSWORD"/>
+                  <input class="form-control form-item" name="password" type="password" placeholder="PASSWORD"/>
                   <!-- <label>PASSWORD</label> -->
                 </div>
                 <div class="has-float-label mx-auto">
