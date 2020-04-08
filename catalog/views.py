@@ -17,32 +17,6 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
-class LoginView(View):
-    form_class = LoginForm
-    template_name = 'catalog/login.html'
-
-    # display blank form
-    def get(self, request):
-        form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
-
-    # process from data
-    def post(self, request):
-        form = self.form_class(request.POST)
-
-        if form.is_valid():
-            user = form.save(commit=False)
-
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect("index")
-
-        return render(request, self.template_name, {'form': form})
-
 
 class SignupView(View):
     form_class = SignupForm

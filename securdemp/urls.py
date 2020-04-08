@@ -16,17 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from catalog.admin import library_manager_site
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('manager/', library_manager_site.urls)
-]
-
 from django.urls import include
 from django.urls import path
 
-urlpatterns += [
+
+urlpatterns = [
     path('catalog/', include('catalog.urls')),
+    path('admin/', admin.site.urls),
+    path('manager/', library_manager_site.urls),
+]
+
+#Add Django site authentication urls (for login, logout, password management)
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 from django.views.generic import RedirectView
