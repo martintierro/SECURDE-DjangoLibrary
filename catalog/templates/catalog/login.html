@@ -1,0 +1,25 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}<title>Sign Up</title>{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <form action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+      <div class="row h-75">
+          <div class="col text-center my-auto" id="login">
+                <legend>USER INFORMATION</legend>
+                <div class="has-float-label mx-auto">
+                  <input class="form-control form-item" name="username" type="text" placeholder="USERNAME"/>
+                  <!-- <label>ID</label> -->
+                </div>
+                <div class="has-float-label mx-auto">
+                  <input class="form-control form-item" name="password" type="password" placeholder="PASSWORD"/>
+                  <!-- <label>PASSWORD</label> -->
+                </div>
+                <button type="submit" class="p-3 btn submit-button" id="loginBTN">LOGIN</button>
+          </div>
+      </div>
+  </form>
+</div>
+{% endblock %}

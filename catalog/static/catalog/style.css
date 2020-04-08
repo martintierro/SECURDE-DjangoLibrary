@@ -64,7 +64,7 @@ input[type=number] {
   -moz-appearance: textfield !important;
 }
 
-#registerBTN{
+.submit-button{
     background: #8d8d8d;
     color: white;
     font-family: PT Sans, sans-serif;
