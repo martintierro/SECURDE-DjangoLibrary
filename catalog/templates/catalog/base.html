@@ -30,11 +30,11 @@
 
 <section>
     <div class="container-fluid">
-        <div class="row h-100 topNav">
-            <div class="col-md-2 my-auto font-weight-bold text-center" id="navTxt"><a>library</a></div>
-            <div class="col-md-2 ml-auto">
-                <nav class="row h-100 navbar navbar-expand-lg navbar-light" id="userNav">
-                    <div class="row h-50 collapse navbar-collapse">
+        <div class="row topNav">
+            <div class="col-md-2 font-weight-bold text-center" id="navTxt"><a>library</a></div>
+            <div class="col-md-3 ml-auto">
+                <nav class="navbar navbar-expand-md navbar-light" id="userNav">
+                    <div class="collapse navbar-collapse">
                         <ul class="navbar-nav ml-auto">
                           {% if user.is_authenticated %}
                           <li class="nav-item">
@@ -54,7 +54,7 @@
                         </ul>
                     </div>
                 </nav>
-                <form class="row h-100 my-2 my-lg-0" id="search">
+                <form class="h-100 my-0" id="search">
                       <fieldset>
                           <input class="form-control" type="search" placeholder="Search" aria-label="Search">
                       </fieldset>

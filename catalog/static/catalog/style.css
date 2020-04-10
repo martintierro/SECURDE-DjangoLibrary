@@ -14,12 +14,12 @@ html, body{
 
 section{
     height: 20%;
-    box-shadow:0px .5px 1px #b6b6b6;
 }
 
 #navTxt{
     font-size: 3.5rem;
     padding-left: 50px;
+    padding-top: 25px;
 }
 
 #userNav{
@@ -46,7 +46,7 @@ legend{
     /*background: darkseagreen;*/
     font-size: 0.7rem;
     width: 300px;
-    height: 10%;
+    height: 8%;
     border: 0;
     border-bottom: 1px solid #544aff;
 }
@@ -68,4 +68,8 @@ input[type=number] {
     font-family: PT Sans, sans-serif;
     font-size: 0.9rem;
     width: 300px;
+}
+
+#search{
+    margin:1rem;
 }
