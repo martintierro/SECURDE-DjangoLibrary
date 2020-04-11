@@ -9,7 +9,7 @@ class BookInline(admin.TabularInline):
     model = Book
     fieldsets = (
         ('BOOKS', {
-            'fields': ('title', 'isbn', 'author',)
+            'fields': ('title', 'isbn', 'author', 'publisher', 'year')
         }),
     )
 
@@ -24,7 +24,7 @@ class BooksInstanceInline(admin.TabularInline):
     model = BookInstance
 
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author')
+    list_display = ('title', 'author', 'publisher', 'year')
     inlines = [BooksInstanceInline]
 
 class BookInstanceAdmin(admin.ModelAdmin):
