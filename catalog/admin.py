@@ -51,7 +51,7 @@ class LibraryManagerSite(AdminSite):
 
 library_manager_site = LibraryManagerSite(name='library_manager')
 
-
+library_manager_site.register(Publisher)
 library_manager_site.register(Review)
 library_manager_site.register(Book, BookAdmin)
 library_manager_site.register(BookInstance, BookInstanceAdmin)
