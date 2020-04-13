@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect
 from django.template import loader
-from django.contrib.auth import authenticate, login
+from django.template.response import TemplateResponse
 from django.views.generic import View
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -11,12 +10,14 @@ from .forms import *
 # Create your views here.
 
 def index(request):
-    template = loader.get_template('catalog/index.html')
+    template = loader.get_template('catalog/books.html')
+    books = Book.objects.all()
+    instances = BookInstance.objects.all()
     context = {
-
+        'books': books,
+        'instances': instances,
     }
     return HttpResponse(template.render(context, request))
-
 
 class SignupView(View):
     user_form_class = UserForm

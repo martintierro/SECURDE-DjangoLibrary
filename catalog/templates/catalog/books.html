@@ -1,0 +1,17 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}<title>Sign Up</title>{% endblock %}
+
+{% block content %}
+<div class="container-fluid book_body">
+     {% for x in books %}
+         <div class="book_card">
+            <span>
+                <h5>{{x.title}}</h5>
+                <h6>{{x.author}}</h6>
+                <h6>Year Published - {{x.year}}</h6>
+             </span>
+         </div>
+     {% endfor %}
+</div>
+{% endblock %}
