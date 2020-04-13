@@ -19,41 +19,53 @@ def index(request):
 
 
 class SignupView(View):
-    form_class = SignupForm
+    user_form_class = UserForm
+    profile_form_class = ProfileForm
     template_name = 'catalog/signup.html'
 
     # display blank form
     def get(self, request):
-        form = self.form_class(None)
-        return render(request, self.template_name, {'form': form})
+        user_form = self.user_form_class(None)
+        profile_form = self.profile_form_class(None)
+        return render(request, self.template_name, {
+            'user_form': user_form,
+            'profile_form': profile_form
+        })
 
     # process from data
     def post(self, request):
-        form = self.form_class(request.POST)
-
-        if form.is_valid():
-            user = form.save(commit=False)
+        user_form = self.user_form_class(request.POST)
+        profile_form =  self.profile_form_class(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save(commit=False)
+            profile = profile_form.save(commit=False)
 
             # cleaned (normalized) data
-            ID_number = form.cleaned_data['ID_number']
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            email = form.cleaned_data['email']
-            user.ID_number = ID_number
+            id_number = profile_form.cleaned_data['id_number']
+            username = user_form.cleaned_data['username']
+            password = user_form.cleaned_data['password']
+            first_name = user_form.cleaned_data['first_name']
+            last_name = user_form.cleaned_data['last_name']
+            email = user_form.cleaned_data['email']
             user.username = username
             user.set_password(password)
             user.first_name = first_name
             user.last_name = last_name
             user.email = email
             user.save()
+            user.profile.id_number = id_number
+            user.save()
 
             user = authenticate(username=username,password=password)
+
+            
 
             if user is not None:
                 if user.is_active:
                     login(request, user)
                     return redirect("index")
 
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {
+            'user_form': user_form,
+            'profile_form': profile_form
+        })
