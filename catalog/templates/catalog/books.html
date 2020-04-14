@@ -4,35 +4,31 @@
 
 {% block content %}
 <div class="container-fluid book_body">
-     {% for x in books %}
+     {% for key, value in status_dictionary.items %}
          <div class="book_card">
             <span>
-                <h5><a href="#">{{x.title}}</a></h5>
-                <h6>{{x.author}}</h6>
-                <h6>Year Published - {{x.year}}</h6>
+                <h5><a href="#">{{key.title}}</a></h5>
+                <h6>{{key.author}}</h6>
+                <h6>Year Published - {{key.year}}</h6>
              </span>
             <div class="row w-100 book_revdeets">
-                {% for y in instances %}
-                    {% if x.isbn == y.book.isbn %}
-                        {% if y.status == 'a' %}
-                            <div class="col-md-3 d-flex flex-column status_tag" style="border-left:3px solid #008000">
-                                <h6 class="my-auto" style="color:#008000">Available</h6>
-                                <h6 class="my-auto"><a href="#">View Details</a></h6>
-                            </div>
-                            <div class="col-md-2 ml-auto">
-                                <button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Reserve</button>
-                            </div>
-                        {% elif y.status == 'r' %}
-                            <div class="col-md-3 d-flex flex-column status_tag" style="border-left:3px solid darkred">
-                                <h6 class="my-auto" style="color:darkred">Unavailable</h6>
-                                <h6 class="my-auto"><a href="#">View Details</a></h6>
-                            </div>
-                            <div class="col-md-2 ml-auto">
-                                <button class="reserve_btn" style="background:lightgray; color:gray" type="button" disabled>Reserve</button>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
+                {% if value == 'a'%}
+                    <div class="col-md-3 d-flex flex-column status_tag" style="border-left:3px solid #008000">
+                        <h6 class="my-auto" style="color:#008000">Available</h6>
+                        <h6 class="my-auto"><a href="#">View Details</a></h6>
+                    </div>
+                    <div class="col-md-2 ml-auto">
+                        <button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Reserve</button>
+                    </div>
+                {% elif value == 'r'%}
+                    <div class="col-md-3 d-flex flex-column status_tag" style="border-left:3px solid darkred">
+                        <h6 class="my-auto" style="color:darkred">Unavailable</h6>
+                        <h6 class="my-auto"><a href="#">View Details</a></h6>
+                    </div>
+                    <div class="col-md-2 ml-auto">
+                        <button class="reserve_btn" style="background:lightgray; color:gray" type="button" disabled>Reserve</button>
+                    </div>
+                {% endif %}
             </div>
          </div>
      {% endfor %}

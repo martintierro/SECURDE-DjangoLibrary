@@ -13,9 +13,19 @@ def index(request):
     template = loader.get_template('catalog/books.html')
     books = Book.objects.all()
     instances = BookInstance.objects.all()
+    status_dictionary = dict()
+    for b in books:
+        status = 'r'
+        for i in instances:
+            if i.book.isbn == b.isbn:
+                if i.status == 'a':
+                    status = 'a'
+        status_dictionary[b] = status
+
     context = {
         'books': books,
         'instances': instances,
+        'status_dictionary': status_dictionary,
     }
     return HttpResponse(template.render(context, request))
 
