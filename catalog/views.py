@@ -80,3 +80,10 @@ class SignupView(View):
             'user_form': user_form,
             'profile_form': profile_form
         })
+    
+def book_details(request, book_id):
+    template = loader.get_template('catalog/book_details.html')
+    context = {
+
+    }
+    return HttpResponse(template.render(context, request))

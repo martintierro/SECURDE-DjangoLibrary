@@ -1,29 +1,29 @@
 {% extends "catalog/base.html" %}
 
 {% block title %}<title>Home</title>{% endblock %}
-
+<base href="/catalog/" />
 {% block content %}
 <div class="container-fluid book_body">
-     {% for key, value in status_dictionary.items %}
+     {% for book, status in status_dictionary.items %}
          <div class="book_card">
             <span>
-                <h5><a href="#">{{key.title}}</a></h5>
-                <h6>{{key.author}}</h6>
-                <h6>Year Published - {{key.year}}</h6>
+                <h5><a href="#">{{book.title}}</a></h5>
+                <h6>{{book.author}}</h6>
+                <h6>Year Published - {{book.year}}</h6>
              </span>
             <div class="row w-100 book_revdeets">
-                {% if value == 'a'%}
+                {% if status == 'a'%}
                     <div class="col-md-3 d-flex flex-column status_tag" style="border-left:3px solid #008000">
                         <h6 class="my-auto" style="color:#008000">Available</h6>
-                        <h6 class="my-auto"><a href="#">View Details</a></h6>
+                        <h6 class="my-auto"><a href="{% url 'book_details' book_id=book.id %}">View Details</a></h6>
                     </div>
                     <div class="col-md-2 ml-auto">
                         <button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Reserve</button>
                     </div>
-                {% elif value == 'r'%}
+                {% elif status == 'r'%}
                     <div class="col-md-3 d-flex flex-column status_tag" style="border-left:3px solid darkred">
                         <h6 class="my-auto" style="color:darkred">Unavailable</h6>
-                        <h6 class="my-auto"><a href="#">View Details</a></h6>
+                        <h6 class="my-auto"><a href="{% url 'book_details' book_id=book.id %}">View Details</a></h6>
                     </div>
                     <div class="col-md-2 ml-auto">
                         <button class="reserve_btn" style="background:lightgray; color:gray" type="button" disabled>Reserve</button>
