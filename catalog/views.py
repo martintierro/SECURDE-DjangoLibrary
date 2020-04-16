@@ -83,7 +83,16 @@ class SignupView(View):
     
 def book_details(request, book_id):
     template = loader.get_template('catalog/book_details.html')
+    selected_book = Book.objects.get(pk=book_id)
+    num_total = BookInstance.objects.filter(book=selected_book).count()
+    num_available = BookInstance.objects.filter(book=selected_book, status='a').count()
+    num_reserved = BookInstance.objects.filter(book=selected_book, status='r').count()
+    reviews = Review.objects.filter(book=selected_book)
     context = {
-
+        'book': selected_book,
+        'num_total': num_total,
+        'num_available': num_available,
+        'num_reserved': num_reserved,
+        'reviews': reviews
     }
     return HttpResponse(template.render(context, request))
