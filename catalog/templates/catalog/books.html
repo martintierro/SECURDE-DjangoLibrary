@@ -7,7 +7,7 @@
      {% for book, status in status_dictionary.items %}
          <div class="book_card">
             <span>
-                <h5><a href="#">{{book.title}}</a></h5>
+                <h5><a href="{% url 'book_details' book_id=book.id %}">{{book.title}}</a></h5>
                 <h6>{{book.author}}</h6>
                 <h6>Year Published - {{book.year}}</h6>
              </span>
