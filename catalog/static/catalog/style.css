@@ -71,11 +71,11 @@ input[type=number] {
     width: 300px;
 }
 
-.has-search .form-control {
+.has-search .form-control{
     padding-left: 2.375rem;
 }
 
-.has-search .form-control-feedback {
+.has-search .form-control-feedback{
     position: absolute;
     z-index: 2;
     display: block;
@@ -131,4 +131,8 @@ input[type=number] {
 
 .reserve_btn_a:hover{
     box-shadow: inset 0 0 0 1000px rgba(0,0,0,.2);
+}
+
+.book_det_body{
+    background: white;
 }

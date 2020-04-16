@@ -84,6 +84,5 @@ class SignupView(View):
 def book_details(request, book_id):
     template = loader.get_template('catalog/book_details.html')
     context = {
-
     }
     return HttpResponse(template.render(context, request))
