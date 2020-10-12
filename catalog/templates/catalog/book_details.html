@@ -8,6 +8,26 @@
             <div class="back">
                 <a href="#" class=""><i class="fas fa-long-arrow-alt-left"></i>Back</a>
             </div>
+            <div>
+                <h3>{{ book.title }}</h3>
+                <h5>{{ book.author }}</h5>
+            </div>
+            <div>
+                <h5>Details</h5>
+                <h5>Publisher: {{ book.publisher }}, {{ book.year }}</h5>
+                <h5>ISBN: {{ book.isbn }}</h5>
+            </div>
+            <div>
+                <h5>Reviews</h5>
+                <input type="text" placeholder="Enter text...">
+                {% for review in reviews %}
+                    <div>
+                        <span>
+                            <h5>{{ review.text }}</h5>
+                        </span>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
