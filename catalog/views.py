@@ -9,6 +9,7 @@ from .forms import *
 
 # Create your views here.
 
+
 def index(request):
     template = loader.get_template('catalog/books.html')
     books = Book.objects.all()
@@ -29,6 +30,7 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 class SignupView(View):
     user_form_class = UserForm
     profile_form_class = ProfileForm
@@ -46,7 +48,7 @@ class SignupView(View):
     # process from data
     def post(self, request):
         user_form = self.user_form_class(request.POST)
-        profile_form =  self.profile_form_class(request.POST)
+        profile_form = self.profile_form_class(request.POST)
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save(commit=False)
             profile = profile_form.save(commit=False)
@@ -67,9 +69,7 @@ class SignupView(View):
             user.profile.id_number = id_number
             user.save()
 
-            user = authenticate(username=username,password=password)
-
-            
+            user = authenticate(username=username, password=password)
 
             if user is not None:
                 if user.is_active:
@@ -80,19 +80,42 @@ class SignupView(View):
             'user_form': user_form,
             'profile_form': profile_form
         })
-    
+
+
 def book_details(request, book_id):
     template = loader.get_template('catalog/book_details.html')
     selected_book = Book.objects.get(pk=book_id)
     num_total = BookInstance.objects.filter(book=selected_book).count()
-    num_available = BookInstance.objects.filter(book=selected_book, status='a').count()
-    num_reserved = BookInstance.objects.filter(book=selected_book, status='r').count()
+    num_available = BookInstance.objects.filter(
+        book=selected_book, status='a').count()
+    num_reserved = BookInstance.objects.filter(
+        book=selected_book, status='r').count()
+    instances = BookInstance.objects.all()
+    status = 'r'
+    for i in instances:
+        if i.book.isbn == selected_book.isbn:
+            if i.status == 'a':
+                status = 'a'
     reviews = Review.objects.filter(book=selected_book)
     context = {
         'book': selected_book,
         'num_total': num_total,
         'num_available': num_available,
         'num_reserved': num_reserved,
-        'reviews': reviews
+        'reviews': reviews,
+        'status': status
     }
     return HttpResponse(template.render(context, request))
+
+
+def reserve_book(request, book_id):
+    selected_book = Book.objects.get(pk=book_id)
+    instances = BookInstance.objects.all()
+    status_dictionary = dict()
+    for i in instances:
+        if i.book.isbn == selected_book.isbn:
+            if i.status == 'a':
+                i.status = 'r'
+                i.save()
+                break
+    return index(request)

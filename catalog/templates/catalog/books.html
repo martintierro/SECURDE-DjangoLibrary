@@ -18,7 +18,9 @@
                         <h6 class="my-auto"><a href="{% url 'book_details' book_id=book.id %}">View Details</a></h6>
                     </div>
                     <div class="col-md-2 ml-auto">
-                        <button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Reserve</button>
+                        <form action="{% url 'reserve_book' book_id=book.id %}" style="margin: 0; height: 100%;">
+                            <button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Reserve</button>
+                        </form>
                     </div>
                 {% elif status == 'r'%}
                     <div class="col-md-3 d-flex flex-column status_tag" style="border-left:3px solid darkred">
@@ -26,7 +28,7 @@
                         <h6 class="my-auto"><a href="{% url 'book_details' book_id=book.id %}">View Details</a></h6>
                     </div>
                     <div class="col-md-2 ml-auto">
-                        <button class="reserve_btn" style="background:lightgray; color:gray" type="button" disabled>Reserve</button>
+                        <button class="reserve_btn" style="background:lightgray; color:gray" type="button" disabled>Reserved</button>
                     </div>
                 {% endif %}
             </div>
