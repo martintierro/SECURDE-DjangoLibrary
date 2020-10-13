@@ -3,9 +3,42 @@
 {% block title %}<title>Profile</title>{% endblock %}
 <base href="/profile/" />
 {% block content %}
-<div class="back" style="padding:20px">
-    <a href="{% url 'index' %}" class="back_button" style="color:lightslategray"><i class="fas fa-long-arrow-alt-left"></i>&nbsp;Back</a>
+<div class="container-fluid book_body" style="height:80%">
+    <div class="back" style="padding:20px;">
+        <a href="{% url 'index' %}" class="back_button" style="color:lightslategray"><i class="fas fa-long-arrow-alt-left"></i>&nbsp;&nbsp;Return to Library</a>
+    </div>
+
+    <div class="container-fluid user_history_body">
+        <div class="row w-100">
+            <div class="col-md-10">
+                <h6 style="padding:10px"><b>Current Borrowed Books</b></h6>
+                <div class="book_card"></div>
+                <h6 style="padding:10px"><b>Past Borrowed Books</b></h6>
+                <div class="book_card"></div>
+            </div>
+
+            <div class="col-md-2 dropdown" style="margin:0px; padding:0px">
+                <button class="btn dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Change Password
+                </button>
+                <div class="dropdown-menu w-100" style="padding:0px; border:none">
+                    <form class="my-auto" style="padding:15px;">
+                        <div class="change-password-label mx-auto align-self-center">
+                            <input class="form-control form-change-item" name="username" type="password" placeholder="CURRENT PASSWORD"/>
+                        </div>
+                        <div class="change-password-label mx-auto align-self-center">
+                            <input class="form-control form-change-item" name="password" type="password" placeholder="NEW PASSWORD"/>
+                        </div>
+                        <div class="change-password-label mx-auto align-self-center">
+                            <input class="form-control form-change-item" name="password" type="password" placeholder="CONFIRM NEW PASSWORD"/>
+                        </div>
+                    </form>
+                    <button type="submit" class="p-1 btn w-100 my-auto confirm-button">CONFIRM</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-    <div>{{ user.get_username }}</div>
-    <div>{{ user.profile.id_number}}</div>
+    <!-- <div>{{ user.get_username }}</div>
+    <div>{{ user.profile.id_number}}</div> -->
 {% endblock %}
