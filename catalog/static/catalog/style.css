@@ -136,3 +136,34 @@ input[type=number] {
 .book_det_body{
     background: white;
 }
+
+.deets_container{
+    padding-top:20px;
+    padding-left:20px;
+    color:#545454
+}
+
+.deets_container_title{
+    margin:0px;
+    border-bottom: 1px solid lightgray;
+}
+
+.back_button:hover{
+    color:#454545 !important;
+}
+
+.available_deets{
+    box-shadow: 0px 0px 5px 3px #e3e3e3;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.available_deets .row{
+    height:25%;
+}
+
+.review_input{
+    border-radius: 3px;
+    border: 1px solid lightgray;
+    height: 10%;
+    padding: 10px;
+}

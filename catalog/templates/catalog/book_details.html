@@ -5,28 +5,74 @@
 {% block content %}
     <div class="container-fluid book_body">
         <div class="container-fluid book_det_body">
-            <div class="back">
-                <a href="#" class=""><i class="fas fa-long-arrow-alt-left"></i>Back</a>
+            <div class="back" style="padding:20px">
+                <a href="#" class="back_button" style="color:lightslategray"><i class="fas fa-long-arrow-alt-left"></i>&nbsp;Back</a>
             </div>
-            <div>
-                <h3>{{ book.title }}</h3>
-                <h5>{{ book.author }}</h5>
-            </div>
-            <div>
-                <h5>Details</h5>
-                <h5>Publisher: {{ book.publisher }}, {{ book.year }}</h5>
-                <h5>ISBN: {{ book.isbn }}</h5>
-            </div>
-            <div>
-                <h5>Reviews</h5>
-                <input type="text" placeholder="Enter text...">
-                {% for review in reviews %}
-                    <div>
-                        <span>
-                            <h5>{{ review.text }}</h5>
-                        </span>
+            <div class="container-fluid book_deets">
+                <div>
+                    <div class="row w-100" style="padding:20px">
+                        <div class="col-md-2">
+                            <i class="fas fa-book fa-9x" style="color:#bfaa88;"></i>
+                        </div>
+
+                        <div class="col-md-6" style="padding:5px">
+                            <h3><b>{{ book.title }}</b></h3>
+                            <h5 style="color:#545454">{{ book.author }}</h5>
+                        </div>
+
+                        <div class="col-md-3 ml-auto available_deets" style="border-top: 3px solid #616161;">
+                            <div class="row" style="padding-top:10px">
+                                <div class="col mx-auto my-auto">
+                                    {% if status == 'a'%}
+                                        <h5 style="color:#008000">Available for reservation</h5>
+                                    {% elif status == 'r'%}
+                                        <h5 style="color:#7c0000">All copies in use</h5>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mx-auto my-auto">
+                                    <span>Copies: <b>{{num_total}}</b>&nbsp;&nbsp;&nbsp;</span>
+                                    <span>Available: <b>{{num_available}}</b></span>
+                                </div>
+                            </div>
+                            {% if status == 'a'%}
+                                <div class="row" style="padding-top:10px; height:40%;">
+                                    <div class="col mx-auto my-auto"><button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Reserve</button></div>
+                                </div>
+                            {% elif status == 'r'%}
+                                <div class="row" style="padding-top:10px; height:40%;">
+                                    <div class="col mx-auto my-auto"><button class="reserve_btn" style="background:lightgray; color:gray" type="button" disabled>Reserve</button></div>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
-                {% endfor %}
+                </div>
+                <div class="deets_container">
+                    <p class="deets_container_title">Details</p>
+                    <div class="row w-50" style="padding-top:10px; padding-left:10px">
+                        <div class="col-md-3"><span><b>Publisher: </b></span></div>
+                        <div class="col-md-6"><span>{{ book.publisher }}, {{ book.year }}</span></div>
+                    </div>
+                    <div class="row w-50" style="padding-left:10px">
+                        <div class="col-md-3"><span><b>ISBN: </b></span></div>
+                        <div class="col-md-6"><span>{{ book.isbn }}</span></div>
+                    </div>
+                </div>
+                <div class="deets_container" style="padding-bottom:20px">
+                    <p class="deets_container_title">Reviews</p>
+                    <div class="form-group" style="padding:10px">
+                        <textarea class="form-control w-100 review_input" type="text" placeholder="Enter text..."></textarea>
+                    </div>
+                    <input class="review_submit" type="submit" value="Submit">
+                    {% for review in reviews %}
+                        <div>
+                            <span>
+                                <p>{{ review.text }}</p>
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
