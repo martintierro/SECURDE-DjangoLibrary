@@ -172,9 +172,9 @@ def profile(request):
         if form.is_valid():
             user = request.user
 
-            current_password = user_form.cleaned_data['current_password']
+            current_password = form.cleaned_data['current_password']
 
-            logged = authenticate(username=username, password=current_password)
+            # logged = authenticate(username=user.username, password=current_password)
 
             # if(user)
             # user.set_password(password)
