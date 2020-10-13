@@ -167,3 +167,10 @@ input[type=number] {
     height: 10%;
     padding: 10px;
 }
+
+.review_submit{
+    padding: 5px!important;
+    border: 0px;
+    border-radius: 3px;
+    height: 100%;
+}
