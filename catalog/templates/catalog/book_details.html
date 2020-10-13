@@ -38,7 +38,11 @@
                             </div>
                             {% if status == 'a'%}
                                 <div class="row" style="padding-top:10px; height:40%;">
-                                    <div class="col mx-auto my-auto"><button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Reserve</button></div>
+                                    <div class="col mx-auto my-auto">
+                                        <form action="{% url 'reserve_book' book_id=book.id %}" style="margin: 0; height: 100%;">
+                                            <button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Reserve</button>
+                                        </form>
+                                    </div>
                                 </div>
                             {% elif status == 'r'%}
                                 <div class="row" style="padding-top:10px; height:40%;">

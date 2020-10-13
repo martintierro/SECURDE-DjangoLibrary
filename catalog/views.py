@@ -1,7 +1,7 @@
 from django.template import loader
 from django.template.response import TemplateResponse
 from django.views.generic import View
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .models import *
@@ -96,7 +96,7 @@ def book_details(request, book_id):
             review.book = book
             review.profile = profile
             review.save()
-            form = ReviewForm()
+            return redirect('book_details', book_id)
 
     else:
         form = ReviewForm()
@@ -137,7 +137,7 @@ def reserve_book(request, book_id):
                 i.status = 'r'
                 i.save()
                 break
-    return redirect("index")
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def book_search(request, query):
