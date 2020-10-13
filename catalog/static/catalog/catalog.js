@@ -16,4 +16,9 @@ $(document).ready(function() {
             $(".review_submit").css('background', '#dedede');
         }
     });
+
+    $('#search_input').on('keyup', function(){
+        let search_value = $("#search_input").val();
+        
+    })
 });

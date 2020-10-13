@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "catalog/base.html" %}
 
-</body>
-</html>
+{% block title %}<title>Profile</title>{% endblock %}
+<base href="/profile/" />
+{% block content %}
+<div class="back" style="padding:20px">
+    <a href="{% url 'index' %}" class="back_button" style="color:lightslategray"><i class="fas fa-long-arrow-alt-left"></i>&nbsp;Back</a>
+</div>
+    <div>{{ user.get_username }}</div>
+    <div>{{ user.profile.id_number}}</div>
+{% endblock %}

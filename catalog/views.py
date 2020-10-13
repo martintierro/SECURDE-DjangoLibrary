@@ -1,7 +1,7 @@
 from django.template import loader
 from django.template.response import TemplateResponse
 from django.views.generic import View
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .models import *
@@ -118,4 +118,37 @@ def reserve_book(request, book_id):
                 i.status = 'r'
                 i.save()
                 break
-    return index(request)
+    return redirect("index")
+
+
+def book_search(request, query):
+    template = loader.get_template('catalog/books.html')
+    books = Book.objects.filter(name__unaccent__icontains=query)
+    authors = Author.objects.filter(
+        firstname__unaccent__icontains=query, lastname__unaccent__icontains=query)
+    for author in authors:
+        books.append(Book.objects.get(author__exact=author))
+    instances = BookInstance.objects.all()
+    status_dictionary = dict()
+    for b in books:
+        status = 'r'
+        for i in instances:
+            if i.book.isbn == b.isbn:
+                if i.status == 'a':
+                    status = 'a'
+        status_dictionary[b] = status
+
+    context = {
+        'books': books,
+        'instances': instances,
+        'status_dictionary': status_dictionary,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def profile(request):
+    template = loader.get_template('catalog/profile.html')
+    context = {
+
+    }
+    return HttpResponse(template.render(context, request))
