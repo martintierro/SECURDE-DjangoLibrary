@@ -83,6 +83,24 @@ class SignupView(View):
 
 
 def book_details(request, book_id):
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        
+        if form.is_valid():
+            profile = request.user.profile
+            book = Book.objects.get(pk=book_id)
+            review = form.save(commit=False)
+            text = form.cleaned_data['text']
+            review.text = text
+            review.book = book
+            review.profile = profile
+            review.save()
+            form = ReviewForm()
+
+    else:
+        form = ReviewForm()
+
     template = loader.get_template('catalog/book_details.html')
     selected_book = Book.objects.get(pk=book_id)
     num_total = BookInstance.objects.filter(book=selected_book).count()
@@ -103,7 +121,8 @@ def book_details(request, book_id):
         'num_available': num_available,
         'num_reserved': num_reserved,
         'reviews': reviews,
-        'status': status
+        'status': status,
+        'review_form': form
     }
     return HttpResponse(template.render(context, request))
 
@@ -147,8 +166,24 @@ def book_search(request, query):
 
 
 def profile(request):
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
+
+        if form.is_valid():
+            user = request.user
+
+            current_password = user_form.cleaned_data['current_password']
+
+            logged = authenticate(username=username, password=current_password)
+
+            # if(user)
+            # user.set_password(password)
+            # TODO Change Password Code
+
+    else:
+        form = ResetPasswordForm()
     template = loader.get_template('catalog/profile.html')
     context = {
-
+        'reset_password_form': form
     }
     return HttpResponse(template.render(context, request))

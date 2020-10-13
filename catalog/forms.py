@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import *
 from django import forms
 
 
@@ -50,11 +50,22 @@ class LoginForm(forms.ModelForm):
         fields = ['username', 'password']
 
 
-class EditPasswordForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'CONFIRM PASSWORD'}))
+class ResetPasswordForm(forms.ModelForm):
+    current_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control form-change-item', 'placeholder': 'CURRENT PASSWORD'}))
+    new_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control form-change-item', 'placeholder': 'NEW PASSWORD'}))
+    confirm_new_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control form-change-item', 'placeholder': 'CONFIRM NEW PASSWORD'}))
 
     class Meta:
         model = User
         fields = ['password']
+
+class ReviewForm(forms.ModelForm):
+    text = forms.CharField(max_length=1000, widget=forms.Textarea(
+        attrs={'class': 'form-control w-100 review_input', 'placeholder': 'Enter text...', 'rows': '2'}), label='')
+    
+    class Meta:
+        model = Review
+        fields = ['text']
