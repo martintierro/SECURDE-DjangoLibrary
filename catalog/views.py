@@ -188,9 +188,19 @@ def profile(request):
     current_borrowed_books = request.user.profile.bookinstance_current_books.all()
     past_borrowed_books = Book.objects.filter(bookinstance__in=profile.bookinstance_set.all()).distinct()
     template = loader.get_template('catalog/profile.html')
+    instances = BookInstance.objects.all()
+    status_dictionary = dict()
+    for b in past_borrowed_books:
+        status = 'r'
+        for i in instances:
+            if i.book.isbn == b.isbn:
+                if i.status == 'a':
+                    status = 'a'
+        status_dictionary[b] = status
     context = {
         'reset_password_form': form,
         'current_borrowed_books': current_borrowed_books,
-        'past_borrowed_books': past_borrowed_books
+        'past_borrowed_books': past_borrowed_books,
+        'status_dictionary': status_dictionary,
     }
     return HttpResponse(template.render(context, request))
