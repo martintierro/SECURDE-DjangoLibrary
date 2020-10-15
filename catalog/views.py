@@ -145,6 +145,8 @@ def reserve_book(request, book_id):
         if i.book.isbn == selected_book.isbn:
             if i.status == 'a':
                 i.status = 'r'
+                if i.current_profile != None:
+                    i.past_profiles.add(i.current_profile)
                 i.current_profile = request.user.profile
                 i.save()
                 break
