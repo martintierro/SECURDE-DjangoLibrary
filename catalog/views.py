@@ -185,8 +185,8 @@ def profile(request):
             book.past_profiles.add(book.current_profile)
             book.current_profile = None
             book.save()
-    current_borrowed_books = request.user.profile.bookinstance_current_books.all()   
-    past_borrowed_books = profile.bookinstance_set.all()
+    current_borrowed_books = request.user.profile.bookinstance_current_books.all()
+    past_borrowed_books = Book.objects.filter(bookinstance__in=profile.bookinstance_set.all()).distinct()
     template = loader.get_template('catalog/profile.html')
     context = {
         'reset_password_form': form,
