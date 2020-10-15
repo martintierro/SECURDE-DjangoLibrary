@@ -145,8 +145,6 @@ def reserve_book(request, book_id):
         if i.book.isbn == selected_book.isbn:
             if i.status == 'a':
                 i.status = 'r'
-                if i.current_profile != None:
-                    i.past_profiles.add(i.current_profile)
                 i.current_profile = request.user.profile
                 i.save()
                 break
@@ -154,6 +152,7 @@ def reserve_book(request, book_id):
 
 
 def profile(request):
+    profile = request.user.profile
     if request.method == 'POST':
         form = ResetPasswordForm(request.POST)
 
@@ -179,7 +178,13 @@ def profile(request):
     else:
         form = ResetPasswordForm()
     current_borrowed_books = request.user.profile.bookinstance_current_books.all()
-    past_borrowed_books = request.user.profile.bookinstance_set.all()
+    for book in current_borrowed_books:
+        if book.status == 'a':
+            book.past_profiles.add(book.current_profile)
+            book.current_profile = None
+            book.save()
+    current_borrowed_books = request.user.profile.bookinstance_current_books.all()   
+    past_borrowed_books = profile.bookinstance_set.all()
     template = loader.get_template('catalog/profile.html')
     context = {
         'reset_password_form': form,
