@@ -217,3 +217,20 @@ input[type=number] {
     background: #303030;
     color: white!important;
 }
+
+.review_card{
+    padding: 10px 10px 10px 15px !important;
+    border-bottom: 1px solid lightgray;
+}
+
+.review{
+    font-size: 0.9rem;
+}
+
+#icon{
+    background-color:darkslategray;
+    color:white;
+    border-radius:25px;
+    height: 25px;
+    width: 25px;
+}
