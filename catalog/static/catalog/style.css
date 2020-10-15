@@ -16,7 +16,7 @@ html, body{
 
 section{
     /* height: 20%; */
-    padding-bottom: 40px;
+    padding-bottom: 42px;
     background: white;
 }
 
@@ -52,10 +52,9 @@ legend{
 }
 
 .form-item{
-    /*background: darkseagreen;*/
     font-size: 0.7rem;
     width: 300px;
-    height: 8%;
+    height: 40px;
     border: 0;
     border-bottom: 1px solid #544aff;
 }
@@ -98,6 +97,9 @@ input[type=number] {
 .book_body{
     background: #f4f4f4;
     padding: 5px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .book_card{
@@ -143,6 +145,8 @@ input[type=number] {
 
 .book_det_body{
     background: white;
+    flex-grow: 1;
+    height: 100%;
 }
 
 .deets_container{

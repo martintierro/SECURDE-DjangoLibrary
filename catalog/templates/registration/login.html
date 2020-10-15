@@ -3,7 +3,7 @@
 {% block title %}<title>Sign In</title>{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid my-auto">
   <form action="{% url 'login' %}" method="POST">
     {% csrf_token %}
       <div class="row h-75">

@@ -3,7 +3,7 @@
 {% block title %}<title>Home</title>{% endblock %}
 <base href="/catalog/" />
 {% block content %}
-<div class="container-fluid d-flex flex-column flex-grow-1 book_body">
+<div class="container-fluid book_body">
      {% for book, status in status_dictionary.items %}
          <div class="book_card">
             <span>

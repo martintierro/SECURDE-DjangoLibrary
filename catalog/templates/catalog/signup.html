@@ -3,8 +3,8 @@
 {% block title %}<title>Sign Up</title>{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-  <form action="{% url 'signup' %}" method="POST">
+<div class="container-fluid my-auto">
+  <form action="{% url 'signup' %}" method="POST" class="">
     {% csrf_token %}
     <div class="row h-75">
       <div class="col text-center my-auto" id="register">
