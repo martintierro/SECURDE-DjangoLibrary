@@ -35,11 +35,14 @@
                         </ul>
                     </div>
                 </nav>
-                <form class="h-100 my-0" id="search">
+                <form class="h-100 my-0" id="search" action="{% url 'index' %}" method="POST">
+                    {% csrf_token %}
+                    {% for field in search_form %} 
                     <div class="form-group has-search">
                         <span class="fas fa-search form-control-feedback"></span>
-                        <input type="text" class="form-control" placeholder="Search">
+                        {{field}}
                     </div>
+                    {% endfor %}
                 </form>
             </div>
         </div>

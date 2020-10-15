@@ -7,13 +7,22 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
 from .models import *
 from .forms import *
-
+from django.db.models import Q
 # Create your views here.
 
 
 def index(request):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            books = Book.objects.filter(Q(title__icontains=query) | Q(author__in=Author.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))) )   
+        else:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+        books = Book.objects.all()
+        form = SearchForm()
     template = loader.get_template('catalog/books.html')
-    books = Book.objects.all()
     instances = BookInstance.objects.all()
     status_dictionary = dict()
     for b in books:
@@ -28,9 +37,9 @@ def index(request):
         'books': books,
         'instances': instances,
         'status_dictionary': status_dictionary,
+        'search_form': form,
     }
     return HttpResponse(template.render(context, request))
-
 
 class SignupView(View):
     user_form_class = UserForm
@@ -142,31 +151,6 @@ def reserve_book(request, book_id):
                 i.save()
                 break
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-def book_search(request, query):
-    template = loader.get_template('catalog/books.html')
-    books = Book.objects.filter(name__unaccent__icontains=query)
-    authors = Author.objects.filter(
-        firstname__unaccent__icontains=query, lastname__unaccent__icontains=query)
-    for author in authors:
-        books.append(Book.objects.get(author__exact=author))
-    instances = BookInstance.objects.all()
-    status_dictionary = dict()
-    for b in books:
-        status = 'r'
-        for i in instances:
-            if i.book.isbn == b.isbn:
-                if i.status == 'a':
-                    status = 'a'
-        status_dictionary[b] = status
-
-    context = {
-        'books': books,
-        'instances': instances,
-        'status_dictionary': status_dictionary,
-    }
-    return HttpResponse(template.render(context, request))
 
 
 def profile(request):

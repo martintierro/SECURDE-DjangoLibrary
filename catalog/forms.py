@@ -79,3 +79,10 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['text']
+
+class SearchForm(forms.ModelForm):
+    query = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search'}), label='')
+
+    class Meta:
+        model = Book
+        fields = ['query']
