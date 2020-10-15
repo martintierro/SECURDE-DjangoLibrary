@@ -22,18 +22,17 @@
                     Change Password
                 </button>
                 <div class="dropdown-menu w-100" style="padding:0px; border:none">
-                    <form class="my-auto" style="padding:15px;">
-                        <div class="change-password-label mx-auto align-self-center">
-                            <input class="form-control form-change-item" name="username" type="password" placeholder="CURRENT PASSWORD"/>
+                    <form action="{% url 'profile' %}" style="margin:0" method="POST">
+                        <div class="my-auto" style="padding:15px">
+                            {% csrf_token %}
+                            {% for field in reset_password_form %}
+                                <div class="change-password-label mx-auto align-self-center">
+                                    {{field}}
+                                </div>
+                            {% endfor%}
                         </div>
-                        <div class="change-password-label mx-auto align-self-center">
-                            <input class="form-control form-change-item" name="password" type="password" placeholder="NEW PASSWORD"/>
-                        </div>
-                        <div class="change-password-label mx-auto align-self-center">
-                            <input class="form-control form-change-item" name="password" type="password" placeholder="CONFIRM NEW PASSWORD"/>
-                        </div>
+                        <button type="submit" class="p-1 btn w-100 my-auto confirm-button">CONFIRM</button>
                     </form>
-                    <button type="submit" class="p-1 btn w-100 my-auto confirm-button">CONFIRM</button>
                 </div>
             </div>
         </div>

@@ -21,15 +21,15 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password']
 
-    # def clean(self):
-    #     cleaned_data = super(UserForm, self).clean()
-    #     password = cleaned_data.get("password")
-    #     confirm_password = cleaned_data.get("confirm_password")
+    def clean(self):
+        cleaned_data = super(UserForm, self).clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
 
-    #     if password != confirm_password:
-    #         self.add_error('confirm_password', "Password does not match")
+        if password != confirm_password:
+            self.add_error('confirm_password', "Password does not match")
 
-    #     return cleaned_data
+        return cleaned_data
 
 
 class ProfileForm (forms.ModelForm):
@@ -60,7 +60,17 @@ class ResetPasswordForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['password']
+        fields = ['current_password', 'new_password', 'confirm_new_password']
+    
+    def clean(self):
+        cleaned_data = super(ResetPasswordForm, self).clean()
+        new_password = cleaned_data.get("new_password")
+        confirm_new_password = cleaned_data.get("confirm_new_password")
+
+        if new_password != confirm_new_password:
+            self.add_error('confirm_password', "Password does not match")
+
+        return cleaned_data
 
 class ReviewForm(forms.ModelForm):
     text = forms.CharField(max_length=1000, widget=forms.Textarea(

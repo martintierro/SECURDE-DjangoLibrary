@@ -4,6 +4,7 @@ from django.views.generic import View
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import check_password
 from .models import *
 from .forms import *
 
@@ -173,12 +174,20 @@ def profile(request):
             user = request.user
 
             current_password = form.cleaned_data['current_password']
+            new_password = form.cleaned_data['new_password']
+            confirm_new_password = form.cleaned_data['confirm_new_password']
+            check_authentication = check_password(current_password, user.password)
 
-            # logged = authenticate(username=user.username, password=current_password)
-
-            # if(user)
-            # user.set_password(password)
-            # TODO Change Password Code
+            if check_authentication:
+                user.set_password(new_password)   
+                user.save()
+                login_user = authenticate(username=user.username, password=new_password)
+                if user is not None:
+                    if user.is_active:
+                        login(request, user)
+                        return redirect('profile')
+            else:
+                form.add_error('current_password', "Password is incorrect")
 
     else:
         form = ResetPasswordForm()
