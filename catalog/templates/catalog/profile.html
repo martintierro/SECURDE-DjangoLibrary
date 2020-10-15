@@ -12,9 +12,17 @@
         <div class="row w-100">
             <div class="col-md-10">
                 <h6 style="padding:10px"><b>Current Borrowed Books</b></h6>
-                <div class="book_card"></div>
+                <div class="book_card">
+                    {% for book_instance in current_borrowed_books %} 
+                        <div>{{book_instance.book}}</div>
+                    {% endfor %}
+                </div>
                 <h6 style="padding:10px"><b>Past Borrowed Books</b></h6>
-                <div class="book_card"></div>
+                <div class="book_card">
+                    {% for book_instance in past_borrowed_books %} 
+                        <div>{{book_instance.book}}</div>
+                    {% endfor %}
+                </div>
             </div>
 
             <div class="col-md-2 dropdown" style="margin:0px; padding:0px">

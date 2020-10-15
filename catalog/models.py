@@ -13,7 +13,6 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     id_number = models.TextField(max_length=8, blank=True)
 
-
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -65,7 +64,8 @@ class BookInstance(models.Model):
                           help_text='Unique ID for this particular book across whole library')
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
-    profile = models.ManyToManyField(Profile)
+    current_profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, related_name='%(class)s_current_books')
+    past_profiles = models.ManyToManyField(Profile)
 
     STATUS = (
         ('a', 'Available'),

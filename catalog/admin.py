@@ -30,8 +30,9 @@ class BookAdmin(admin.ModelAdmin):
     inlines = [BooksInstanceInline]
 
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_display = ('book', 'status', 'id')
+    list_display = ('book', 'status', 'id', 'current_profile',)
     list_filter = ('status',)
+    filter_horizontal = ('past_profiles',)
 
     fieldsets = (
         (None, {
