@@ -10,10 +10,13 @@
 
 html, body{
     font-family: Poppins, sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 section{
-    height: 20%;
+    /* height: 20%; */
+    padding-bottom: 40px;
     background: white;
 }
 
@@ -100,7 +103,7 @@ input[type=number] {
 .book_card{
     background-color: white;
     padding: 50px;
-    margin: 20px 50px;
+    margin: 10px 50px;
     border-radius: 5px;
 }
 

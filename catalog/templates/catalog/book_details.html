@@ -3,8 +3,8 @@
 {% block title %}<title>Book Details</title>{% endblock %}
 
 {% block content %}
-    <div class="container-fluid book_body">
-        <div class="container-fluid book_det_body">
+    <div class="container-fluid d-flex flex-column flex-grow-1 book_body">
+        <div class="container-fluid flex-grow-1 book_det_body">
             <div class="back" style="padding:20px">
                 <a href="{% url 'index' %}" class="back_button" style="color:lightslategray"><i class="fas fa-long-arrow-alt-left"></i>&nbsp;&nbsp;Back</a>
             </div>
@@ -36,18 +36,34 @@
                                     <span>Available: <b>{{num_available}}</b></span>
                                 </div>
                             </div>
-                            {% if status == 'a'%}
-                                <div class="row" style="padding-top:10px; height:40%;">
-                                    <div class="col mx-auto my-auto">
-                                        <form action="{% url 'reserve_book' book_id=book.id %}" style="margin: 0; height: 100%;">
-                                            <button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Reserve</button>
-                                        </form>
+                            {% if user.is_authenticated %}
+                                {% if status == 'a'%}
+                                    <div class="row" style="padding-top:10px; height:40%;">
+                                        <div class="col mx-auto my-auto">
+                                            <form action="{% url 'reserve_book' book_id=book.id %}" style="margin: 0; height: 100%;">
+                                                <button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Reserve</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                            {% elif status == 'r'%}
-                                <div class="row" style="padding-top:10px; height:40%;">
-                                    <div class="col mx-auto my-auto"><button class="reserve_btn" style="background:lightgray; color:gray" type="button" disabled>Reserve</button></div>
-                                </div>
+                                {% elif status == 'r'%}
+                                    <div class="row" style="padding-top:10px; height:40%;">
+                                        <div class="col mx-auto my-auto"><button class="reserve_btn" style="background:lightgray; color:gray" type="button" disabled>Reserve</button></div>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                {% if status == 'a'%}
+                                    <div class="row" style="padding-top:10px; height:40%;">
+                                        <div class="col mx-auto my-auto">
+                                            <form action="{% url 'login' %}" style="margin: 0; height: 100%;">
+                                                <button class="reserve_btn reserve_btn_a" style="background:#008000; color:white">Log in to reserve</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% elif status == 'r'%}
+                                    <div class="row" style="padding-top:10px; height:40%;">
+                                        <div class="col mx-auto my-auto"><button class="reserve_btn" style="background:lightgray; color:gray" type="button" disabled>Unavailable</button></div>
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
@@ -64,19 +80,22 @@
                     </div>
                 </div>
                 <div id="reviews_container" class="deets_container" style="padding:20px">
-                    <form action="{% url 'book_details' book_id=book.id %}" method="POST">
+                    <form action="{% url 'book_details' book_id=book.id %}" method="POST" style="margin:0px">
                         {% csrf_token %}
                         <p class="deets_container_title">Reviews ({{ reviews|length }})</p>
-                        <div class="form-group" style="padding:10px 10px 0px 10px; margin-bottom:10px;">
-                            {% for field in review_form %}
-                                {{field}}
-                            {% endfor %}
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2 ml-auto" style="margin-right:10px; margin-top:0px;">
-                                <input class="w-100 review_submit" type="submit" value="Submit">
+                        {% if user.is_authenticated %}
+                            <div class="form-group" style="padding:10px 10px 0px 10px; margin-bottom:10px;">
+                                {% for field in review_form %}
+                                    {{field}}
+                                {% endfor %}
                             </div>
-                        </div>
+                            
+                            <div class="row">
+                                <div class="col-md-2 ml-auto" style="margin-right:10px; margin-top:0px;">
+                                    <input class="w-100 review_submit" type="submit" value="Submit">
+                                </div>
+                            </div>
+                        {% endif %}
                     </form>
                     {% for review in reviews %}
                         <div class="container-fluid w-100 review_card">
