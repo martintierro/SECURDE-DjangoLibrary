@@ -22,8 +22,10 @@ from django.urls import path
 
 urlpatterns = [
     path('catalog/', include('catalog.urls')),
-    path('admin/', admin.site.urls),
-    path('manager/', library_manager_site.urls),
+    path('admin/', include('catalog_admin.urls')),
+    path('manager/', include('manager.urls')),
+    path('django-admin/', admin.site.urls),
+    path('django-manager/', library_manager_site.urls),
 ]
 
 #Add Django site authentication urls (for login, logout, password management)
