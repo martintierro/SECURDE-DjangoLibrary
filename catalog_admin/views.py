@@ -10,7 +10,9 @@ from django.db.models import Q
 # Create your views here.
 def index(request):
     template = loader.get_template('catalog_admin/users.html')
+    users = User.objects.filter(groups__name='Users')
     context = {
+        'users':users
     }
     return HttpResponse(template.render(context, request))
 #     if request.method == 'POST':
