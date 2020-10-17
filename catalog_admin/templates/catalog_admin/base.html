@@ -1,0 +1,83 @@
+{% block title %}<title>Library</title>{% endblock %}
+
+{%  load static %}
+<title>Admin</title>
+<link rel="stylesheet" href="{%  static 'catalog_admin/vendors/mdi/css/materialdesignicons.min.css' %}">
+<link rel="stylesheet" href="{%  static 'catalog_admin/vendors/base/vendor.bundle.base.css' %}">
+<link rel="stylesheet" href="{% static 'catalog_admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
+<link rel="stylesheet" href="{% static 'catalog_admin/css/style.css' %}">
+<link rel="shortcut icon" href="{% static 'catalog_admin/images/favicon.png' %}" />
+
+<div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="navbar-brand-wrapper d-flex justify-content-center">
+      <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">  
+        <a class="navbar-brand brand-logo" href="{% url 'index' %}"><b>library</b>admin</a>
+        <a class="navbar-brand brand-logo-mini" href="{% url 'index' %}"><b>l</b>a</a>
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="mdi mdi-sort-variant"></span>
+        </button>
+      </div>  
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item nav-profile">
+          <a class="nav-link" href="#" id="logout">
+            <i class="mdi mdi-logout text-primary"></i>
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_sidebar.html -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'index' %}">
+            <i class="mdi mdi-account menu-icon"></i>
+            <span class="menu-title">Users</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="managers.html" aria-expanded="false" aria-controls="ui-basic">
+            <i class="mdi mdi-account-key menu-icon"></i>
+            <span class="menu-title">Managers</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="system_logs.html">
+            <i class="mdi mdi-television-guide menu-icon"></i>
+            <span class="menu-title">System Logs</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- partial -->
+    <div class="main-panel">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+
+<!-- plugins:js -->
+<script src="{% static 'catalog_admin/vendors/base/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'catalog_admin/vendors/chart.js/Chart.min.js' %}"></script>
+<script src="{% static 'catalog_admin/vendors/datatables.net/jquery.dataTables.js' %}"></script>
+<script src="{% static 'catalog_admin/vendors/datatables.net-bs4/dataTables.bootstrap4.js' %}"></script>
+<script src="{% static 'catalog_admin/js/off-canvas.js' %}"></script>
+<script src="{% static 'catalog_admin/js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'catalog_admin/js/template.js' %}"></script>
+<script src="{% static 'catalog_admin/js/dashboard.js' %}"></script>
+<script src="{% static 'catalog_admin/js/data-table.js' %}"></script>
+<script src="{% static 'catalog_admin/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'catalog_admin/js/dataTables.bootstrap4.js' %}"></script>
+<script src="{% static 'catalog_admin/js/jquery.cookie.js' %}" type="text/javascript"></script>

@@ -9,7 +9,10 @@ from catalog.models import *
 from django.db.models import Q
 # Create your views here.
 def index(request):
-    return
+    template = loader.get_template('catalog_admin/users.html')
+    context = {
+    }
+    return HttpResponse(template.render(context, request))
 #     if request.method == 'POST':
 #         form = SearchForm(request.POST)
 #         if form.is_valid():
