@@ -12,7 +12,7 @@
 <section class="sticky-top">
     <div class="container-fluid">
         <div class="row topNav">
-            <div class="col-md-2 font-weight-bold text-center" id="navTxt"><a href="{% url 'index' %}" id="library_button">library</a></div>
+            <div class="col-md-2 font-weight-bold text-center" id="navTxt"><a href="{% url 'catalog_index' %}" id="library_button">library</a></div>
             <div class="col-md-3 ml-auto">
                 <nav class="navbar navbar-expand-md navbar-light" id="userNav">
                     <div class="collapse navbar-collapse">
@@ -35,7 +35,7 @@
                         </ul>
                     </div>
                 </nav>
-                <form class="h-100 my-0" id="search" action="{% url 'index' %}" method="POST">
+                <form class="h-100 my-0" id="search" action="{% url 'catalog_index' %}" method="POST">
                     {% csrf_token %}
                     {% for field in search_form %} 
                     <div class="form-group has-search">

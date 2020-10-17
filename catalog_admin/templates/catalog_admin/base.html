@@ -13,8 +13,8 @@
   <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div class="navbar-brand-wrapper d-flex justify-content-center">
       <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">  
-        <a class="navbar-brand brand-logo" href="{% url 'index' %}"><b>library</b>admin</a>
-        <a class="navbar-brand brand-logo-mini" href="{% url 'index' %}"><b>l</b>a</a>
+        <a class="navbar-brand brand-logo" href="{% url 'admin_index' %}"><b>library</b>admin</a>
+        <a class="navbar-brand brand-logo-mini" href="{% url 'admin_index' %}"><b>l</b>a</a>
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
           <span class="mdi mdi-sort-variant"></span>
         </button>
@@ -37,7 +37,7 @@
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'index' %}">
+          <a class="nav-link" href="{% url 'admin_index' %}">
             <i class="mdi mdi-account menu-icon"></i>
             <span class="menu-title">Users</span>
           </a>
