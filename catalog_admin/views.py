@@ -12,7 +12,15 @@ def index(request):
     template = loader.get_template('catalog_admin/users.html')
     users = User.objects.filter(groups__name='Users')
     context = {
-        'users':users
+        'users':users,
+    }
+    return HttpResponse(template.render(context, request))
+
+def view_managers(request):
+    template = loader.get_template('catalog_admin/managers.html')
+    managers = User.objects.filter(groups__name='Managers')
+    context = {
+        'managers': managers,
     }
     return HttpResponse(template.render(context, request))
 #     if request.method == 'POST':
