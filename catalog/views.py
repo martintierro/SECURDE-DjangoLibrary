@@ -5,12 +5,15 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.models import Group
 from .models import *
 from .forms import *
 from django.db.models import Q
+from django.urls import reverse_lazy
+from django.contrib.admin.views.decorators import user_passes_test
 # Create your views here.
 
-
+@user_passes_test(lambda u: not u.is_authenticated or u.groups.filter(name='Users').exists(), login_url=reverse_lazy('login'))
 def index(request):
     if request.method == 'POST':
         form = SearchForm(request.POST)
@@ -78,6 +81,9 @@ class SignupView(View):
             user.save()
             user.profile.id_number = id_number
             user.save()
+            user_group = Group.objects.get(name='Users')
+            user_group.user_set.add(user)
+            user_group.save()
 
             user = authenticate(username=username, password=password)
 
@@ -91,7 +97,7 @@ class SignupView(View):
             'profile_form': profile_form
         })
 
-
+@user_passes_test(lambda u: not u.is_authenticated or u.groups.filter(name='Users').exists(), login_url=reverse_lazy('login'))
 def book_details(request, book_id):
     
     if request.method == 'POST':
@@ -136,7 +142,7 @@ def book_details(request, book_id):
     }
     return HttpResponse(template.render(context, request))
 
-
+@user_passes_test(lambda u: not u.is_authenticated or u.groups.filter(name='Users').exists(), login_url=reverse_lazy('login'))
 def reserve_book(request, book_id):
     selected_book = Book.objects.get(pk=book_id)
     instances = BookInstance.objects.all()
@@ -152,7 +158,7 @@ def reserve_book(request, book_id):
                 break
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-
+@user_passes_test(lambda u: not u.is_authenticated or u.groups.filter(name='Users').exists(), login_url=reverse_lazy('login'))
 def profile(request):
     profile = request.user.profile
     if request.method == 'POST':
