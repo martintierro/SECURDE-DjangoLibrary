@@ -23,3 +23,15 @@ def view_managers(request):
         'managers' : managers,
     }
     return HttpResponse(template.render(context, request))
+
+def add_manager(request):
+    template = loader.get_template('catalog_admin/add_manager.html')
+    context = {
+    }
+    return HttpResponse(template.render(context, request))
+
+def system_logs(request):
+    template = loader.get_template('catalog_admin/system_logs.html')
+    context = {
+    }
+    return HttpResponse(template.render(context, request))

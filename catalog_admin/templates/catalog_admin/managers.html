@@ -2,5 +2,76 @@
 
 {% block title %}<title>Managers</title>{% endblock %}
 <base href="/admin/"/>
+{% block sidebar %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'admin_index' %}">
+      <i class="mdi mdi-account menu-icon"></i>
+      <span class="menu-title">Users</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'view_managers' %}" style="color:#4d83ff">
+      <i class="mdi mdi-account-key menu-icon"></i>
+      <span class="menu-title">Managers</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'system_logs' %}">
+      <i class="mdi mdi-television-guide menu-icon"></i>
+      <span class="menu-title">System Logs</span>
+    </a>
+  </li>
+{% endblock %}
+
 {% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-12 stretch-card">
+          <div class="card">
+            <div class="card-body">
+                <div class=row>
+                    <div class="col-md-12" style="padding:0px">
+                        <div class="d-flex flex-wrap">
+                            <div class="col-md-11">
+                                <p class="card-title">Managers</p>
+                            </div>
+                            <div class="col-md-1 d-flex align-items-start flex-wrap">
+                                <form action="{% url 'add_manager' %}" class="w-100">
+                                    <button type="submit" class="btn btn-inverse-primary btn-fw w-100" style="padding:2px">
+                                        <i class="mdi mdi-account-plus btn-icon-prepend"></i>  
+                                        Add
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              <div class="table-responsive">
+                <table id="recent-purchases-listing" class="table">
+                  <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>ID Number</th>
+                        <th>Email Address</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for manager in managers %}
+                    <tr>
+                        <td>{{manager.username}}</td>
+                        <td>{{manager.first_name}}</td>
+                        <td>{{manager.last_name}}</td>
+                        <td>{{manager.profile.id_number}}</td>
+                        <td>{{manager.email}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

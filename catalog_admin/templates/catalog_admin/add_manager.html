@@ -1,0 +1,116 @@
+{% extends "catalog_admin/base.html" %}
+
+{% block title %}<title>Add Manager</title>{% endblock %}
+<base href="/admin/"/>
+{% block sidebar %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'admin_index' %}">
+      <i class="mdi mdi-account menu-icon"></i>
+      <span class="menu-title">Users</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'view_managers' %}" style="color:#4d83ff">
+      <i class="mdi mdi-account-key menu-icon"></i>
+      <span class="menu-title">Managers</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'system_logs' %}">
+      <i class="mdi mdi-television-guide menu-icon"></i>
+      <span class="menu-title">System Logs</span>
+    </a>
+  </li>
+{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">ADD MANAGER</h4>
+                    <form action="{% url 'view_managers' %}" class="form-sample">
+                        <p class="card-description">User information</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">First Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="First Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-"></div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Last Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Last Name">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Email Address</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" placeholder="Email Address">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">ID Number</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" placeholder="ID" style="-webkit-appearance: none; margin: 0;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-"></div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Username</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" placeholder="Username">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Password</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" class="form-control" placeholder="Password">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-"></div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Confirm Password</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" class="form-control" placeholder="Password">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-right:10px;">
+                            <div class="col-md-12">
+                                <div class="form-group row justify-content-end">
+                                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                    <a href="{% url 'view_managers' %}" type="submit" class="btn btn-light">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

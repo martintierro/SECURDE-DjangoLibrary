@@ -2,13 +2,34 @@
 
 {% block title %}<title>Users</title>{% endblock %}
 <base href="/admin/"/>
+{% block sidebar %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'admin_index' %}" style="color:#4d83ff">
+      <i class="mdi mdi-account menu-icon"></i>
+      <span class="menu-title">Users</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'view_managers' %}">
+      <i class="mdi mdi-account-key menu-icon"></i>
+      <span class="menu-title">Managers</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'system_logs' %}">
+      <i class="mdi mdi-television-guide menu-icon"></i>
+      <span class="menu-title">System Logs</span>
+    </a>
+  </li>
+{% endblock %}
+
 {% block content %}
-<div class="container-wrapper">
+<div class="content-wrapper">
     <div class="row">
         <div class="col-md-12 stretch-card">
           <div class="card">
             <div class="card-body">
-              <p class="card-title">Recent Purchases</p>
+              <p class="card-title">Users</p>
               <div class="table-responsive">
                 <table id="recent-purchases-listing" class="table">
                   <thead>
@@ -28,7 +49,6 @@
                         <td>{{user.last_name}}</td>
                         <td>{{user.profile.id_number}}</td>
                         <td>{{user.email}}</td>
-                        <td>$2274253</td>
                     </tr>
                     {% endfor %}
                   </tbody>
