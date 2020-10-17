@@ -26,6 +26,7 @@ urlpatterns = [
     path('manager/', include('manager.urls')),
     path('django-admin/', admin.site.urls),
     path('django-manager/', library_manager_site.urls),
+    path('', include('authentication.urls'))
 ]
 
 #Add Django site authentication urls (for login, logout, password management)
@@ -33,11 +34,11 @@ urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 
-from django.views.generic import RedirectView
+# from django.views.generic import RedirectView
 
-urlpatterns += [
-    path('', RedirectView.as_view(url='catalog/', permanent=True)),
-]
+# urlpatterns += [
+#     path('', RedirectView.as_view(url='catalog/', permanent=True)),
+# ]
 
 from django.conf import settings
 from django.conf.urls.static import static
