@@ -35,3 +35,9 @@ def system_logs(request):
     context = {
     }
     return HttpResponse(template.render(context, request))
+
+def change_password(request):
+    template = loader.get_template('catalog_admin/change_password.html')
+    context = {
+    }
+    return HttpResponse(template.render(context, request))
