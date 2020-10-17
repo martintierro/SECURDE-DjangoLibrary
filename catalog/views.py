@@ -84,7 +84,7 @@ class SignupView(View):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return redirect("index")
+                    return redirect("catalog_index")
 
         return render(request, self.template_name, {
             'user_form': user_form,
