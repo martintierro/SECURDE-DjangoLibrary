@@ -7,9 +7,11 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
 from catalog.models import *
 from django.db.models import Q
+from django.urls import reverse_lazy
+from django.contrib.admin.views.decorators import user_passes_test
 # Create your views here.
 
-
+@user_passes_test(lambda u: u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
 def index(request):
     template = loader.get_template('manager/books.html')
     books = Book.objects.all()
@@ -22,6 +24,7 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
+@user_passes_test(lambda u: u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
 def book_instances(request):
     template = loader.get_template('manager/book_instances.html')
     instances = BookInstance.objects.all()
@@ -30,6 +33,7 @@ def book_instances(request):
     }
     return HttpResponse(template.render(context, request))
 
+@user_passes_test(lambda u: u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
 def add_book(request):
     template = loader.get_template('manager/add_book.html')
     authors = Author.objects.all()
@@ -40,6 +44,7 @@ def add_book(request):
     }
     return HttpResponse(template.render(context, request))
 
+@user_passes_test(lambda u: u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
 def add_book_instance(request):
     template = loader.get_template('manager/add_book_instance.html')
     books = Book.objects.all()
@@ -48,6 +53,7 @@ def add_book_instance(request):
     }
     return HttpResponse(template.render(context, request))
 
+@user_passes_test(lambda u: u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
 def change_password(request):
     template = loader.get_template('manager/change_password.html')
     context = {
