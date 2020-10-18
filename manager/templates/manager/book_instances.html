@@ -45,15 +45,15 @@
                 <table id="recent-purchases-listing" class="table table-hover table-bordered">
                   <thead>
                     <tr>
-                        <th style="widows:45%">Book</th>
-                        <th style="width:5%">Status</th>
+                        <th style="widows:40%">Book</th>
+                        <th style="width:10%">Status</th>
                         <th style="width:30%">ID</th>
                         <th style="width:20%">Borrower</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for instance in instances %}
-                    <tr class="table-striped" onmouseover='this.style.background="rgba(60, 86, 143, 0.11)"' onmouseout='this.style.background=""'>
+                    <tr class="table-striped" href="{% url 'view_book_instance_details' bookinstance_id=instance.id %}" onmouseover='this.style.background="rgba(60, 86, 143, 0.11)"' onmouseout='this.style.background=""'>
                         <td style="overflow-wrap:break-word; word-wrap:break-word; white-space:normal">{{instance.book.title}}</td>
                         {% if instance.status == 'a' %}
                             <td style="overflow-wrap:break-word; word-wrap:break-word; white-space:normal">Available</td>
@@ -75,4 +75,13 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+$('table tr').click(function(){
+    window.location = $(this).attr('href');
+    return false;
+});
+</script>
 {% endblock %}

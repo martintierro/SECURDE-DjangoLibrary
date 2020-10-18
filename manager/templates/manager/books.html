@@ -56,7 +56,7 @@
                   </thead>
                   <tbody>
                     {% for book, instance in count_dictionary.items %}
-                    <tr class="table-striped" onmouseover='this.style.background="rgba(60, 86, 143, 0.11)"' onmouseout='this.style.background=""'>
+                    <tr class="table-striped" href="{% url 'view_book_details' book_id=book.id %}" onmouseover='this.style.background="rgba(60, 86, 143, 0.11)"' onmouseout='this.style.background=""'>
                         <td style="overflow-wrap:break-word; word-wrap:break-word; white-space:normal">{{book.title}}</td>
                         <td style="overflow-wrap:break-word; word-wrap:break-word; white-space:normal">{{book.author}}</td>
                         <td style="overflow-wrap:break-word; word-wrap:break-word; white-space:normal">{{book.publisher}}</td>
@@ -72,4 +72,13 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+$('table tr').click(function(){
+    window.location = $(this).attr('href');
+    return false;
+});
+</script>
 {% endblock %}

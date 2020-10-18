@@ -53,6 +53,30 @@ def add_book_instance(request):
     }
     return HttpResponse(template.render(context, request))
 
+@user_passes_test(lambda u: not u.is_authenticated or u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
+def view_book_details(request, book_id):
+    template = loader.get_template('manager/book_details.html')
+    selected_book = Book.objects.get(pk=book_id)
+    authors = Author.objects.all()
+    publishers = Publisher.objects.all()
+    context = {
+        'book': selected_book,
+        'authors': authors,
+        'publishers': publishers,
+    }
+    return HttpResponse(template.render(context, request))
+
+@user_passes_test(lambda u: not u.is_authenticated or u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
+def view_book_instance_details(request, bookinstance_id):
+    template = loader.get_template('manager/book_instance_details.html')
+    selected_book = BookInstance.objects.get(pk=bookinstance_id)
+    books = Book.objects.all()
+    context = {
+        'instance': selected_book,
+        'books': books,
+    }
+    return HttpResponse(template.render(context, request))
+
 @user_passes_test(lambda u: u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
 def change_password(request):
     template = loader.get_template('manager/change_password.html')

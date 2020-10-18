@@ -1,7 +1,7 @@
 {% extends "manager/base.html" %}
 
-{% block title %}<title>Add Book Instance</title>{% endblock %}
-<base href="/manager/"/>
+{% block title %}<title>Book Instance Details</title>{% endblock %}
+<base href="/manager/bookinstances/"/>
 
 {% block style %}
 <style>
@@ -42,7 +42,7 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Add Book Instance</h4>
+                    <h4 class="card-title">View Book Instance</h4>
                     <form action="{% url 'book_instances' %}" class="form-sample" style="margin:0px">
                         <p class="card-description">Book Instance information</p>
                         <div class="row">
@@ -51,7 +51,7 @@
                                     <label>Book</label>
                                     <div class="input-group col-xs-12">
                                         <select class="form-control custom-select h-100">
-                                            <option disabled selected hidden></option>
+                                            <option disabled selected hidden>{{instance.book.title}}</option>
                                             {% for book in books %}
                                             <option>{{book}}</option>
                                             {% endfor %}
@@ -66,7 +66,11 @@
                                     <label>Status</label>
                                     <div class="input-group col-xs-12">
                                         <select class="form-control custom-select h-100">
-                                            <option selected> Available</option>
+                                            {% if instance.status == 'a' %}
+                                                <option selected>Available</option>
+                                            {% else %}
+                                                <option selected>Reserved</option>
+                                            {% endif %}
                                             <option>Reserved</option>
                                         </select>
                                     </div>
@@ -74,7 +78,12 @@
                             </div>
                         </div>
                         <div class="row" style="padding-right:10px; padding-bottom:0px">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group row justify-content-start" style="margin:0px">
+                                    <button type="submit" class="btn btn-danger mr-2">Delete</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group row justify-content-end" style="margin:0px">
                                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                                     <a href="{% url 'book_instances' %}" type="submit" class="btn btn-light">Cancel</a>

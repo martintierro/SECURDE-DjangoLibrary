@@ -1,0 +1,120 @@
+{% extends "manager/base.html" %}
+
+{% block title %}<title>Book Details</title>{% endblock %}
+<base href="/manager/"/>
+
+{% block style %}
+<style>
+    [hidden] {
+    display: none;
+    }
+</style>
+{% endblock %}
+
+{% block sidebar %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'manager_index' %}"  style="color:#4d83ff">
+        <i class="mdi mdi mdi-book menu-icon"></i>
+        <span class="menu-title">Books</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'book_instances' %}">
+        <i class="mdi mdi mdi-book-multiple menu-icon"></i>
+        <span class="menu-title">Book Instances</span>
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-md-12" style="padding-bottom: 10px">
+            <a href="{% url 'manager_index' %}" style="text-decoration:none; color:#9e9e9e" onmouseover='this.style.color="#636363"' onmouseout='this.style.color="#9e9e9e"'>
+                <div class="d-flex align-items-end flex-wrap">
+                    <i class="mdi mdi-keyboard-backspace hover-cursor back_button"></i>
+                    <p class="mb-0 hover-cursor back_button">&nbsp;&nbsp;Back</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">View Book</h4>
+                    <form action="{% url 'manager_index' %}" class="form-sample" style="margin:0px">
+                        <p class="card-description">Book information</p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <input type="text" class="form-control" placeholder="Title" value="{{book.title}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Author</label>
+                                    <div class="input-group col-xs-12">
+                                        <select class="form-control custom-select h-100">
+                                            <option disabled selected hidden>{{.author}}</option>
+                                            {% for author in authors %}
+                                            <option>{{author}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Publisher</label>
+                                    <div class="input-group col-xs-12">
+                                        <select class="form-control custom-select h-100">
+                                            <option disabled selected hidden>{{book.publisher}}</option>
+                                            {% for publisher in publishers %}
+                                            <option>{{publisher}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Year of Publication</label>
+                                    <input type="number" class="form-control" placeholder="Year of Publication" value="{{book.year}}">
+                                </div>
+                            </div>
+                            <div class="col-"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>ISBN</label>
+                                    <input type="number" class="form-control" placeholder="13 Character ISBN Number" value="{{book.isbn}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-right:10px; padding-bottom:0px">
+                            <div class="col-md-6">
+                                <div class="form-group row justify-content-start" style="margin:0px">
+                                    <button type="submit" class="btn btn-danger mr-2">Delete</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row justify-content-end" style="margin:0px">
+                                    <button type="submit" class="btn btn-primary btn-icon-text mr-2">Save</button>
+                                    <a href="{% url 'manager_index' %}" type="submit" class="btn btn-light">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
