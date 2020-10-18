@@ -9,7 +9,7 @@ def check_login(request):
             return HttpResponseRedirect(reverse('admin_index'))
         if request.user.groups.filter(name='Users').exists():
             return HttpResponseRedirect(reverse('catalog_index'))
-        elif request.user.groups.filter(name='Users').exists():
+        elif request.user.groups.filter(name='Managers').exists():
             return HttpResponseRedirect(reverse('manager_index'))
         
     else:
