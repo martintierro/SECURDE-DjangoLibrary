@@ -11,4 +11,37 @@ from django.db.models import Q
 
 
 def index(request):
-    return
+    template = loader.get_template('manager/books.html')
+    books = Book.objects.all()
+    count_dictionary = dict()
+    for b in books:
+        count = BookInstance.objects.filter(book=b).count()
+        count_dictionary[b] = count
+    context = {
+        'count_dictionary': count_dictionary,
+    }
+    return HttpResponse(template.render(context, request))
+
+def book_instances(request):
+    template = loader.get_template('manager/book_instances.html')
+    instances = BookInstance.objects.all()
+    context = {
+        'instances': instances,
+    }
+    return HttpResponse(template.render(context, request))
+
+def add_book(request):
+    template = loader.get_template('manager/add_book.html')
+    authors = Author.objects.all()
+    publishers = Publisher.objects.all()
+    context = {
+        'authors': authors,
+        'publishers': publishers,
+    }
+    return HttpResponse(template.render(context, request))
+
+def change_password(request):
+    template = loader.get_template('manager/change_password.html')
+    context = {
+    }
+    return HttpResponse(template.render(context, request))
