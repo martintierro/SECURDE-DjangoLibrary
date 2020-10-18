@@ -40,6 +40,14 @@ def add_book(request):
     }
     return HttpResponse(template.render(context, request))
 
+def add_book_instance(request):
+    template = loader.get_template('manager/add_book_instance.html')
+    books = Book.objects.all()
+    context = {
+        'books': books,
+    }
+    return HttpResponse(template.render(context, request))
+
 def change_password(request):
     template = loader.get_template('manager/change_password.html')
     context = {
