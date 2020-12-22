@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.models import Group
 from catalog.models import *
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -34,7 +35,42 @@ def view_managers(request):
 @user_passes_test(lambda u:u.is_staff, login_url=reverse_lazy('login'))
 def add_manager(request):
     template = loader.get_template('catalog_admin/add_manager.html')
+    if request.method == 'POST':
+        user_form = ManagerUserForm(request.POST)
+        profile_form = ManagerProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save(commit=False)
+            profile = profile_form.save(commit=False)
+
+            # cleaned (normalized) data
+            id_number = profile_form.cleaned_data['id_number']
+            username = user_form.cleaned_data['username']
+            password = user_form.cleaned_data['password']
+            first_name = user_form.cleaned_data['first_name']
+            last_name = user_form.cleaned_data['last_name']
+            email = user_form.cleaned_data['email']
+            user.username = username
+            user.set_password(password)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email
+            user.save()
+            user.profile.id_number = id_number
+            user.save()
+            user_group = Group.objects.get(name='Managers')
+            user_group.user_set.add(user)
+            user_group.save()
+
+           
+            return redirect("view_managers")
+        
+    else:
+        user_form = ManagerUserForm()
+        profile_form = ManagerProfileForm()
+
     context = {
+        'manager_user_form': user_form,
+        'manager_profile_form': profile_form,
     }
     return HttpResponse(template.render(context, request))
 

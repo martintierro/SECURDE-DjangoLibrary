@@ -10,7 +10,7 @@ class UserForm(forms.ModelForm):
         attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'FIRSTNAME'}))
     last_name = forms.CharField(max_length=50, widget=forms.TextInput(
         attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'LASTNAME'}))
-    email = forms.CharField(max_length=50, widget=forms.TextInput(
+    email = forms.EmailField(max_length=50, widget=forms.TextInput(
         attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'EMAIL'}))
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'PASSWORD'}))
@@ -33,6 +33,8 @@ class UserForm(forms.ModelForm):
 
 
 class ProfileForm (forms.ModelForm):
+    # id_number = forms.IntegerField(widget=forms.TextInput(
+    #     attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'ID'}))
     id_number = forms.CharField(max_length=8, widget=forms.TextInput(
         attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'ID'}))
 
