@@ -125,3 +125,9 @@ STATIC_URL = '/static/'
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
 
+
+
+# SESSION AGE 5 Minutes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 60*5 # set to 5 minutes
+SESSION_SAVE_EVERY_REQUEST = True
