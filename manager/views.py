@@ -9,6 +9,7 @@ from catalog.models import *
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.contrib.admin.views.decorators import user_passes_test
+from .forms import *
 # Create your views here.
 
 @user_passes_test(lambda u: u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
@@ -80,6 +81,29 @@ def view_book_instance_details(request, bookinstance_id):
 @user_passes_test(lambda u: u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
 def change_password(request):
     template = loader.get_template('manager/change_password.html')
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            current_password = form.cleaned_data['current_password']
+            new_password = form.cleaned_data['new_password']
+            confirm_new_password = form.cleaned_data['confirm_new_password']
+            check_authentication = check_password(current_password, user.password)
+
+            if check_authentication:
+                user.set_password(new_password)   
+                user.save()
+                login_user = authenticate(username=user.username, password=new_password)
+                if user is not None:
+                    if user.is_active:
+                        login(request, user)
+                        return redirect('manager_index')
+            else:
+                form.add_error('current_password', "Password is incorrect")
+
+    else:
+        form = ResetPasswordForm()
     context = {
+        'reset_password_form': form,
     }
     return HttpResponse(template.render(context, request))

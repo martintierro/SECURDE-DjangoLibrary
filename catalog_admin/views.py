@@ -50,7 +50,6 @@ def system_logs(request):
 @user_passes_test(lambda u:u.is_staff, login_url=reverse_lazy('login'))
 def change_password(request):
     template = loader.get_template('catalog_admin/change_password.html')
-    print(request.method)
     if request.method == 'POST':
         form = ResetPasswordForm(request.POST)
         if form.is_valid():
