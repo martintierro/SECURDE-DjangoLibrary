@@ -9,6 +9,7 @@ from catalog.models import *
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.contrib.admin.views.decorators import user_passes_test
+from django.contrib.admin.models import LogEntry
 
 # Create your views here.
 @user_passes_test(lambda u:u.is_staff, login_url=reverse_lazy('login'))
@@ -39,7 +40,9 @@ def add_manager(request):
 @user_passes_test(lambda u:u.is_staff, login_url=reverse_lazy('login'))
 def system_logs(request):
     template = loader.get_template('catalog_admin/system_logs.html')
+    logs = LogEntry.objects.all() #or you can filter, etc.
     context = {
+        'logs': logs,
     }
     return HttpResponse(template.render(context, request))
 
