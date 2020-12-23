@@ -43,13 +43,14 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">View Book</h4>
-                    <form action="{% url 'manager_index' %}" class="form-sample" style="margin:0px">
+                    <form action="{% url 'view_book_details' book_id=book.id %}" class="form-sample" style="margin:0px" method="POST">
+                        {% csrf_token %}
                         <p class="card-description">Book information</p>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Title</label>
-                                    <input type="text" class="form-control" placeholder="Title" value="{{book.title}}">
+                                    {{book_form.title}}
                                 </div>
                             </div>
                         </div>
@@ -58,10 +59,10 @@
                                 <div class="form-group">
                                     <label>Author</label>
                                     <div class="input-group col-xs-12">
-                                        <select class="form-control custom-select h-100">
-                                            <option disabled selected hidden>{{book.author}}</option>
+                                        <select class="form-control custom-select h-100" name="author_id" id="author_dropdown">
+                                            <option selected hidden value="{{ book.author.id }}">{{book.author}}</option>
                                             {% for author in authors %}
-                                            <option>{{author}}</option>
+                                            <option value="{{ author.id }}">{{author}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -73,10 +74,10 @@
                                 <div class="form-group">
                                     <label>Publisher</label>
                                     <div class="input-group col-xs-12">
-                                        <select class="form-control custom-select h-100">
-                                            <option disabled selected hidden>{{book.publisher}}</option>
+                                        <select class="form-control custom-select h-100" name="publisher_id" id="publisher_dropdown">
+                                            <option selected hidden value="{{ book.publisher.id }}">{{book.publisher}}</option>
                                             {% for publisher in publishers %}
-                                            <option>{{publisher}}</option>
+                                            <option value="{{ publisher.id }}">{{publisher}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -87,14 +88,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Year of Publication</label>
-                                    <input type="number" class="form-control" placeholder="Year of Publication" value="{{book.year}}">
+                                    {{book_form.year}}
                                 </div>
                             </div>
                             <div class="col-"></div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>ISBN</label>
-                                    <input type="number" class="form-control" placeholder="13 Character ISBN Number" value="{{book.isbn}}">
+                                    {{book_form.isbn}}
                                 </div>
                             </div>
                         </div>

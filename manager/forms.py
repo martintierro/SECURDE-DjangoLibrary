@@ -27,13 +27,9 @@ class ResetPasswordForm(forms.ModelForm):
 
         return cleaned_data
 
-class AddBookForm(forms.ModelForm):
+class BookForm(forms.ModelForm):
     title = forms.CharField(max_length=200, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Title'}))
-    # author = forms.ForeignKey(widget=forms.TextInput(
-    #     attrs={'class': 'form-control'}))
-    # publisher = forms.ForeignKey(widget=forms.TextInput(
-    #     attrs={'class': 'form-control'}))
     year = forms.CharField(max_length=4, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Year of Publication'}))
     isbn = forms.CharField(max_length=13, widget=forms.TextInput(
@@ -43,7 +39,7 @@ class AddBookForm(forms.ModelForm):
         model = Book
         fields = ['title', 'year', 'isbn']
 
-class AddAuthorForm(forms.ModelForm):
+class AuthorForm(forms.ModelForm):
     first_name = forms.CharField(max_length=100, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'First Name'}), required=False)
     last_name = forms.CharField(max_length=100, widget=forms.TextInput(
@@ -54,12 +50,12 @@ class AddAuthorForm(forms.ModelForm):
         fields = ['first_name', 'last_name']
     
     def clean(self):
-        cleaned_data = super(AddAuthorForm, self).clean()
+        cleaned_data = super(AuthorForm, self).clean()
         if (cleaned_data.get('first_name') == '' and cleaned_data.get('last_name') != '') or (cleaned_data.get('first_name') != '' and cleaned_data.get('last_name') == ''):
             raise ValidationError('Please fill out the empty author field')
 
 
-class AddPublisherForm(forms.ModelForm):
+class PublisherForm(forms.ModelForm):
     name = forms.CharField(max_length=200, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Publisher'}), required=False)
 

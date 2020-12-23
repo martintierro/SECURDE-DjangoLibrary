@@ -41,9 +41,9 @@ def add_book(request):
     publishers = Publisher.objects.all()
 
     if request.method == 'POST':
-        book_form = AddBookForm(data=request.POST)
-        author_form = AddAuthorForm(data=request.POST)
-        publisher_form = AddPublisherForm(data=request.POST)
+        book_form = BookForm(data=request.POST)
+        author_form = AuthorForm(data=request.POST)
+        publisher_form = PublisherForm(data=request.POST)
         
         selected_author = None   
         selected_publisher = None   
@@ -95,9 +95,9 @@ def add_book(request):
 
 
     else:
-        book_form = AddBookForm()
-        author_form = AddAuthorForm()
-        publisher_form = AddPublisherForm()
+        book_form = BookForm()
+        author_form = AuthorForm()
+        publisher_form = PublisherForm()
 
     context = {
         'authors': authors,
@@ -124,10 +124,41 @@ def view_book_details(request, book_id):
     selected_book = Book.objects.get(pk=book_id)
     authors = Author.objects.all()
     publishers = Publisher.objects.all()
+
+    if request.method == 'POST':
+        book_form = BookForm(data=request.POST, instance=selected_book)
+
+        selected_author = None   
+        selected_publisher = None   
+        
+        if book_form.is_valid():
+            if request.POST.get('author_id') is not None:
+                selected_author = get_object_or_404(Author, pk=request.POST.get('author_id'))
+           
+            if request.POST.get('publisher_id') is not None:
+                selected_publisher = get_object_or_404(Publisher, pk=request.POST.get('publisher_id'))
+        
+
+            if book_form.is_valid():
+                book = book_form.save(commit=False)
+                book.author = selected_author
+                book.publisher = selected_publisher
+                book.save()
+
+                return redirect('manager_index')
+        else:
+            return redirect('view_book_details')
+
+
+
+    else:
+        book_form = BookForm(instance=selected_book)
+
     context = {
         'book': selected_book,
         'authors': authors,
         'publishers': publishers,
+        'book_form': book_form,
     }
     return HttpResponse(template.render(context, request))
 
