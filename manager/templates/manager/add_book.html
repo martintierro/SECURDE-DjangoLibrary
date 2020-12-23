@@ -43,26 +43,26 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Add Book</h4>
-                    <form action="{% url 'manager_index' %}" class="form-sample" style="margin:0px">
+                    <form action="{% url 'add_book' %}" class="form-sample" style="margin:0px" method="POST">
+                        {% csrf_token %}
                         <p class="card-description">Book information</p>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Title</label>
-                                    <input type="text" class="form-control" placeholder="Title">
+                                    {{book_form.title}}
                                 </div>
                             </div>
                         </div>
                         <div id="select_author" class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <!-- <p class="card-description">Author</p> -->
                                     <label>Author</label>
                                     <div class="input-group col-xs-12">
-                                        <select class="form-control custom-select h-100">
+                                        <select class="form-control custom-select h-100" name="author_id" id="author_dropdown">
                                             <option disabled selected hidden></option>
                                             {% for author in authors %}
-                                            <option>{{author}}</option>
+                                            <option value="{{ author.id }}">{{author}}</option>
                                             {% endfor %}
                                         </select>
                                         <span class="input-group-append">
@@ -84,25 +84,28 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>First Name</label>
-                                    <input type="text" class="form-control" placeholder="First Name">
+                                    {{author_form.first_name}}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Last Name</label>
-                                    <input type="text" class="form-control" placeholder="Last Name">
+                                    {{author_form.last_name}}
                                 </div>
                             </div>
                         </div>
+                        {% for error in author_form.non_field_errors%}
+                            <p class="card-description"><code>{{error}}</code></p>
+                        {% endfor %}
                         <div id="select_publisher" class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Publisher</label>
                                     <div class="input-group col-xs-12">
-                                        <select class="form-control custom-select h-100">
+                                        <select class="form-control custom-select h-100" name="publisher_id" id="publisher_dropdown">
                                             <option disabled selected hidden></option>
                                             {% for publisher in publishers %}
-                                            <option>{{publisher}}</option>
+                                            <option value="{{ publisher.id }}">{{publisher}}</option>
                                             {% endfor %}
                                         </select>
                                         <span class="input-group-append">
@@ -119,7 +122,7 @@
                                     <button onclick="selectPublisher()" type="button" style="background:none; border:none; margin-bottom:.875rem; padding-left:.875rem;" class="row">
                                         <i class="mdi mdi-arrow-left" style="font-size:0.7rem; color:#008AC1;" onmouseover='this.style.color="#025677"' onmouseout='this.style.color="#008AC1"'>&nbsp;&nbsp;Back to select</i>
                                     </button>
-                                    <input type="text" class="form-control" placeholder="Publisher">
+                                    {{publisher_form.name}}
                                 </div>
                             </div>
                         </div>
@@ -127,14 +130,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Year of Publication</label>
-                                    <input type="number" class="form-control" placeholder="Year of Publication">
+                                    {{book_form.year}}
                                 </div>
                             </div>
                             <div class="col-"></div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>ISBN</label>
-                                    <input type="number" class="form-control" placeholder="13 Character ISBN Number">
+                                    {{book_form.isbn}}
                                 </div>
                             </div>
                         </div>
@@ -163,6 +166,8 @@ function addAuthor(){
     document.getElementById("select_author").style.display = "none";
     document.getElementById("add_author_label").style.display = "inherit";
     document.getElementById("add_author").style.display = "flex";
+    document.getElementById("author_dropdown").value = null;
+
 }
 
 function selectAuthor(){
@@ -174,6 +179,7 @@ function selectAuthor(){
 function addPublisher(){
     document.getElementById("select_publisher").style.display = "none";
     document.getElementById("add_publisher").style.display = "flex";
+    document.getElementById("publisher_dropdown").value = null;
 }
 
 function selectPublisher(){
