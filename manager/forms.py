@@ -62,3 +62,14 @@ class PublisherForm(forms.ModelForm):
     class Meta:
         model = Publisher
         fields = ['name']
+
+STATUS = [
+    ('a', 'Available'),
+    ('r', 'Reserved'),
+]
+
+class BookInstanceForm(forms.ModelForm):
+    status = forms.CharField(widget=forms.Select(attrs={'class': 'form-control custom-select h-100'}, choices=STATUS))
+    class Meta:
+        model = BookInstance
+        fields = ['status']

@@ -43,17 +43,18 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Add Book Instance</h4>
-                    <form action="{% url 'book_instances' %}" class="form-sample" style="margin:0px">
+                    <form action="{% url 'add_book_instance' %}" class="form-sample" style="margin:0px" method="POST">
+                        {% csrf_token %}
                         <p class="card-description">Book Instance information</p>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Book</label>
                                     <div class="input-group col-xs-12">
-                                        <select class="form-control custom-select h-100">
+                                        <select class="form-control custom-select h-100" name="book_id">
                                             <option disabled selected hidden></option>
                                             {% for book in books %}
-                                            <option>{{book}}</option>
+                                            <option value="{{book.id}}">{{book}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -65,10 +66,11 @@
                                 <div class="form-group">
                                     <label>Status</label>
                                     <div class="input-group col-xs-12">
-                                        <select class="form-control custom-select h-100">
+                                        <!-- <select class="form-control custom-select h-100">
                                             <option selected> Available</option>
                                             <option>Reserved</option>
-                                        </select>
+                                        </select> -->
+                                        {{book_instance_form.status}}
                                     </div>
                                 </div>
                             </div>

@@ -70,8 +70,6 @@ def add_book(request):
                 publisher_object.save()
                 selected_publisher = Publisher.objects.get(id=publisher_object.id)
             
-
-
             if book_form.is_valid() and selected_publisher is not None and selected_author is not None:
                 book = book_form.save(commit=False)
                 
@@ -92,8 +90,6 @@ def add_book(request):
         else:
             return redirect('add_book')
 
-
-
     else:
         book_form = BookForm()
         author_form = AuthorForm()
@@ -113,8 +109,29 @@ def add_book(request):
 def add_book_instance(request):
     template = loader.get_template('manager/add_book_instance.html')
     books = Book.objects.all()
+    
+    if request.method == 'POST':
+        book_instance_form = BookInstanceForm(request.POST)
+        selected_book = None
+
+        if book_instance_form.is_valid():
+            if request.POST.get('book_id') is not None:
+                selected_book = get_object_or_404(Book, pk=request.POST.get('book_id'))
+            
+            book_instance = book_instance_form.save(commit=False)
+            status = book_instance_form.cleaned_data['status']
+            book_instance.status = status
+            book_instance.book = selected_book
+            book_instance.save()
+
+            return redirect('book_instances')
+
+    else:
+        book_instance_form = BookInstanceForm()
+
     context = {
         'books': books,
+        'book_instance_form': book_instance_form,
     }
     return HttpResponse(template.render(context, request))
 
@@ -149,8 +166,6 @@ def view_book_details(request, book_id):
         else:
             return redirect('view_book_details')
 
-
-
     else:
         book_form = BookForm(instance=selected_book)
 
@@ -165,10 +180,29 @@ def view_book_details(request, book_id):
 @user_passes_test(lambda u: not u.is_authenticated or u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
 def view_book_instance_details(request, bookinstance_id):
     template = loader.get_template('manager/book_instance_details.html')
-    selected_book = BookInstance.objects.get(pk=bookinstance_id)
+    selected_book_instance = BookInstance.objects.get(pk=bookinstance_id)
     books = Book.objects.all()
+    if request.method == 'POST':
+        book_instance_form = BookInstanceForm(request.POST, instance=selected_book_instance)
+        selected_book = None
+
+        print(book_instance_form.is_valid())
+        if book_instance_form.is_valid():
+            if request.POST.get('book_id') is not None:
+                selected_book = get_object_or_404(Book, pk=request.POST.get('book_id'))
+            
+            book_instance = book_instance_form.save(commit=False)
+            book_instance.book = selected_book
+            book_instance.save()
+
+            return redirect('book_instances')
+
+    else:
+        book_instance_form = BookInstanceForm(instance=selected_book_instance)
+
     context = {
-        'instance': selected_book,
+        'book_instance_form': book_instance_form,
+        'instance': selected_book_instance,
         'books': books,
     }
     return HttpResponse(template.render(context, request))
