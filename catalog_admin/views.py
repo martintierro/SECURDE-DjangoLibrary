@@ -12,7 +12,8 @@ from django.urls import reverse_lazy
 from django.contrib.admin.views.decorators import user_passes_test
 from django.contrib.admin.models import LogEntry
 from .forms import *
-
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE
+from django.contrib.contenttypes.models import ContentType
 # Create your views here.
 @user_passes_test(lambda u:u.is_staff, login_url=reverse_lazy('login'))
 def index(request):
@@ -60,8 +61,13 @@ def add_manager(request):
             user_group = Group.objects.get(name='Managers')
             user_group.user_set.add(user)
             user_group.save()
-
-           
+            current_user = User.objects.get(id=user.id)
+            LogEntry.objects.log_action(
+                user_id=request.user.id,
+                content_type_id=ContentType.objects.get_for_model(User).pk,
+                object_id=current_user.id,
+                object_repr=current_user.username,
+                action_flag=ADDITION)
             return redirect("view_managers")
         
     else:
@@ -98,10 +104,17 @@ def change_password(request):
             if check_authentication:
                 user.set_password(new_password)   
                 user.save()
-                login_user = authenticate(username=user.username, password=new_password)
+                LogEntry.objects.log_action(
+                    user_id=request.user.id,
+                    content_type_id=ContentType.objects.get_for_model(User).pk,
+                    object_id=user.id,
+                    object_repr=user.username,
+                    action_flag=CHANGE,
+                    change_message="Changed password")
+                login_user = authenticate(request=request, username=user.username, password=new_password)
                 if user is not None:
                     if user.is_active:
-                        login(request, user)
+                        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                         return redirect('admin_index')
             else:
                 form.add_error('current_password', "Password is incorrect")

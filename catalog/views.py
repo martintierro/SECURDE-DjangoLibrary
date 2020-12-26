@@ -87,11 +87,11 @@ class SignupView(View):
             user_group.user_set.add(user)
             user_group.save()
             LogEntry.objects.log_action(
-                        user_id=user.id,
-                        content_type_id=ContentType.objects.get_for_model(User).pk,
-                        object_id=user.id,
-                        object_repr=user.username,
-                        action_flag=ADDITION)
+                user_id=user.id,
+                content_type_id=ContentType.objects.get_for_model(User).pk,
+                object_id=user.id,
+                object_repr=user.username,
+                action_flag=ADDITION)
             user = authenticate(request=request, username=username, password=password)
 
             if user is not None:
@@ -197,17 +197,17 @@ def profile(request):
             if check_authentication:
                 user.set_password(new_password)   
                 user.save()
+                LogEntry.objects.log_action(
+                    user_id=user.id,
+                    content_type_id=ContentType.objects.get_for_model(User).pk,
+                    object_id=user.id,
+                    object_repr=user.username,
+                    action_flag=CHANGE,
+                    change_message="Changed password")
                 login_user = authenticate(request=request, username=user.username, password=new_password)
                 if user is not None:
                     if user.is_active:
                         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                        LogEntry.objects.log_action(
-                            user_id=user.id,
-                            content_type_id=ContentType.objects.get_for_model(User).pk,
-                            object_id=user.id,
-                            object_repr=user.username,
-                            action_flag=CHANGE,
-                            change_message="Changed password")
                         return redirect('profile')
             else:
                 form.add_error('current_password', "Password is incorrect")
