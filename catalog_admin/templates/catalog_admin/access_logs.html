@@ -1,10 +1,10 @@
 {% extends "catalog_admin/base.html" %}
 
-{% block title %}<title>Users</title>{% endblock %}
+{% block title %}<title>System Logs</title>{% endblock %}
 <base href="/admin/"/>
 {% block sidebar %}
 <li class="nav-item">
-    <a class="nav-link" href="{% url 'admin_index' %}" style="color:#4d83ff">
+    <a class="nav-link" href="{% url 'admin_index' %}">
       <i class="mdi mdi-account menu-icon"></i>
       <span class="menu-title">Users</span>
     </a>
@@ -22,7 +22,7 @@
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'access_logs' %}">
+    <a class="nav-link" href="{% url 'access_logs' %}" style="color:#4d83ff">
       <i class="mdi mdi-account-card-details menu-icon"></i>
       <span class="menu-title">Access Logs</span>
     </a>
@@ -41,27 +41,26 @@
         <div class="col-md-12 stretch-card">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Users</h4>
-              <p class="card-description">{{users|length}} User(s)</p>
+              <p class="card-title">Access Log</p>
               <div class="table-responsive">
                 <table id="recent-purchases-listing" class="table">
                   <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>ID Number</th>
-                        <th>Email Address</th>
+                        <th style="width:10%;">No.</th>
+                        <th style="width:25%;">IP Address</th>
+                        <th style="width:25%;">By</th>
+                        <th style="width:15%;">Login</th>
+                        <th style="width:15%;">Logout</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for user in users %}
+                    {% for log in logs %}
                     <tr>
-                        <td>{{user.username}}</td>
-                        <td>{{user.first_name}}</td>
-                        <td>{{user.last_name}}</td>
-                        <td>{{user.profile.id_number}}</td>
-                        <td>{{user.email}}</td>
+                      <td>{{log.id}}</td>
+                      <td>{{log.ip_address}}</td>
+                      <td>{{log.username}}</td>
+                      <td>{{log.attempt_time}}</td>
+                      <td>{{log.logout_time}}</td>
                     </tr>
                     {% endfor %}
                   </tbody>

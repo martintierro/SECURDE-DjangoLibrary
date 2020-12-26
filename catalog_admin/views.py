@@ -14,6 +14,9 @@ from django.contrib.admin.models import LogEntry
 from .forms import *
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE
 from django.contrib.contenttypes.models import ContentType
+from axes.models import *
+from itertools import chain
+
 # Create your views here.
 @user_passes_test(lambda u:u.is_staff, login_url=reverse_lazy('login'))
 def index(request):
@@ -86,6 +89,24 @@ def system_logs(request):
     logs = LogEntry.objects.all() #or you can filter, etc.
     context = {
         'logs': logs,
+    }
+    return HttpResponse(template.render(context, request))
+
+@user_passes_test(lambda u:u.is_staff, login_url=reverse_lazy('login'))
+def access_logs(request):
+    template = loader.get_template('catalog_admin/access_logs.html')
+    log = AccessLog.objects.all()
+    context = {
+        'logs': log,
+    }
+    return HttpResponse(template.render(context, request))
+
+@user_passes_test(lambda u:u.is_staff, login_url=reverse_lazy('login'))
+def access_attempts(request):
+    template = loader.get_template('catalog_admin/access_attempts.html')
+    log = AccessAttempt.objects.all()
+    context = {
+        'logs': log,
     }
     return HttpResponse(template.render(context, request))
 
