@@ -8,5 +8,6 @@ urlpatterns = [
     path('addbookinstance/',views.add_book_instance, name="add_book_instance"),
     path('<int:book_id>/', views.view_book_details, name="view_book_details"),
     path('bookinstances/<str:bookinstance_id>/', views.view_book_instance_details, name="view_book_instance_details"),
-    path('changepassword/',views.change_password, name="manager_change_password")
+    path('changepassword/',views.change_password, name="manager_change_password"),
+    path('deletebook/<int:book_id>', views.delete_book, name="delete_book"),
 ]

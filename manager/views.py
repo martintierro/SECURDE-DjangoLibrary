@@ -236,3 +236,13 @@ def change_password(request):
         'reset_password_form': form,
     }
     return HttpResponse(template.render(context, request))
+
+def delete_book(request, book_id):
+    selected_book = Book.objects.get(pk=book_id)
+    book_instances = BookInstance.objects.filter(book=selected_book)
+    for instance in book_instances:
+        instance.delete()
+    selected_book.delete()
+    return redirect("manager_index")
+        
+        

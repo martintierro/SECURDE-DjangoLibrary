@@ -102,7 +102,7 @@
                         <div class="row" style="padding-right:10px; padding-bottom:0px">
                             <div class="col-md-6">
                                 <div class="form-group row justify-content-start" style="margin:0px">
-                                    <button type="submit" class="btn btn-danger mr-2">Delete</button>
+                                    <a href="{% url 'delete_book' book_id=book.id%}"type="submit" class="btn btn-danger mr-2">Delete</a>
                                 </div>
                             </div>
                             <div class="col-md-6">
