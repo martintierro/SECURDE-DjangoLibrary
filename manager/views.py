@@ -10,6 +10,8 @@ from django.db.models import Q
 from django.urls import reverse_lazy
 from django.contrib.admin.views.decorators import user_passes_test
 from .forms import *
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
+from django.contrib.contenttypes.models import ContentType
 # Create your views here.
 
 @user_passes_test(lambda u: u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
@@ -83,9 +85,15 @@ def add_book(request):
                 book.publisher = selected_publisher
                 book.year = year
                 book.isbn = isbn
-
                 book.save()
 
+                current_book = Book.objects.get(id=book.id)
+                LogEntry.objects.log_action(
+                    user_id=request.user.id,
+                    content_type_id=ContentType.objects.get_for_model(Book).pk,
+                    object_id=current_book.id,
+                    object_repr=current_book.title,
+                    action_flag=ADDITION)
                 return redirect('manager_index')
         else:
             return redirect('add_book')
@@ -122,6 +130,14 @@ def add_book_instance(request):
                 book_instance.status = status
                 book_instance.book = selected_book
                 book_instance.save()
+                current_book_instance = BookInstance.objects.get(id=book_instance.id)
+                LogEntry.objects.log_action(
+                    user_id=request.user.id,
+                    content_type_id=ContentType.objects.get_for_model(BookInstance).pk,
+                    object_id=current_book_instance.id,
+                    object_repr=selected_book.title,
+                    action_flag=CHANGE,
+                    change_message="Added Instance "+ str(current_book_instance.id))
                 return redirect('book_instances')
 
     else:
@@ -159,7 +175,14 @@ def view_book_details(request, book_id):
                 book.author = selected_author
                 book.publisher = selected_publisher
                 book.save()
-
+                current_book = Book.objects.get(id=book.id)
+                LogEntry.objects.log_action(
+                    user_id=request.user.id,
+                    content_type_id=ContentType.objects.get_for_model(Book).pk,
+                    object_id=current_book.id,
+                    object_repr=current_book.title,
+                    action_flag=CHANGE,
+                    change_message="Edited Book Details")
                 return redirect('manager_index')
         else:
             return redirect('view_book_details')
@@ -194,7 +217,14 @@ def view_book_instance_details(request, bookinstance_id):
                     book_instance.past_profiles.add(book_instance.current_profile)
                     book_instance.current_profile = None
                 book_instance.save()
-
+                current_book_instance = BookInstance.objects.get(id=book_instance.id)
+                LogEntry.objects.log_action(
+                    user_id=request.user.id,
+                    content_type_id=ContentType.objects.get_for_model(BookInstance).pk,
+                    object_id=current_book_instance.id,
+                    object_repr=selected_book.title,
+                    action_flag=CHANGE,
+                    change_message="Edited Book Instance Details")
             return redirect('book_instances')
 
     else:
@@ -222,10 +252,17 @@ def change_password(request):
             if check_authentication:
                 user.set_password(new_password)   
                 user.save()
-                login_user = authenticate(username=user.username, password=new_password)
+                LogEntry.objects.log_action(
+                    user_id=user.id,
+                    content_type_id=ContentType.objects.get_for_model(User).pk,
+                    object_id=user.id,
+                    object_repr=user.username,
+                    action_flag=CHANGE,
+                    change_message="Changed password")
+                login_user = authenticate(request=request, username=user.username, password=new_password)
                 if user is not None:
                     if user.is_active:
-                        login(request, user)
+                        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                         return redirect('manager_index')
             else:
                 form.add_error('current_password', "Password is incorrect")
@@ -242,10 +279,23 @@ def delete_book(request, book_id):
     book_instances = BookInstance.objects.filter(book=selected_book)
     for instance in book_instances:
         instance.delete()
+    LogEntry.objects.log_action(
+        user_id=request.user.id,
+        content_type_id=ContentType.objects.get_for_model(Book).pk,
+        object_id=selected_book.id,
+        object_repr=selected_book.title,
+        action_flag=DELETION)
     selected_book.delete()
     return redirect("manager_index")
 
 def delete_book_instance(request, bookinstance_id):
+    LogEntry.objects.log_action(
+        user_id=request.user.id,
+        content_type_id=ContentType.objects.get_for_model(BookInstance).pk,
+        object_id=bookinstance_id,
+        object_repr= BookInstance.objects.get(pk=bookinstance_id).book.title,
+        action_flag= CHANGE,
+        change_message="Deleted Instance " + bookinstance_id)
     BookInstance.objects.get(pk=bookinstance_id).delete()
     return redirect("book_instances")
         
