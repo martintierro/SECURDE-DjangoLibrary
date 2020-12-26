@@ -116,15 +116,13 @@ def add_book_instance(request):
 
         if book_instance_form.is_valid():
             if request.POST.get('book_id') is not None:
-                selected_book = get_object_or_404(Book, pk=request.POST.get('book_id'))
-            
-            book_instance = book_instance_form.save(commit=False)
-            status = book_instance_form.cleaned_data['status']
-            book_instance.status = status
-            book_instance.book = selected_book
-            book_instance.save()
-
-            return redirect('book_instances')
+                selected_book = get_object_or_404(Book, pk=request.POST.get('book_id'))  
+                book_instance = book_instance_form.save(commit=False)
+                status = book_instance_form.cleaned_data['status']
+                book_instance.status = status
+                book_instance.book = selected_book
+                book_instance.save()
+                return redirect('book_instances')
 
     else:
         book_instance_form = BookInstanceForm()
@@ -244,5 +242,9 @@ def delete_book(request, book_id):
         instance.delete()
     selected_book.delete()
     return redirect("manager_index")
+
+def delete_book_instance(request, bookinstance_id):
+    BookInstance.objects.get(pk=bookinstance_id).delete()
+    return redirect("book_instances")
         
         
