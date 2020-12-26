@@ -11,6 +11,8 @@ from .forms import *
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.contrib.admin.views.decorators import user_passes_test
+from django.contrib.admin.models import LogEntry, ADDITION, CHANGE
+from django.contrib.contenttypes.models import ContentType
 # Create your views here.
 
 @user_passes_test(lambda u: not u.is_authenticated or u.groups.filter(name='Users').exists(), login_url=reverse_lazy('login'))
@@ -84,12 +86,17 @@ class SignupView(View):
             user_group = Group.objects.get(name='Users')
             user_group.user_set.add(user)
             user_group.save()
-
-            user = authenticate(username=username, password=password)
+            LogEntry.objects.log_action(
+                        user_id=user.id,
+                        content_type_id=ContentType.objects.get_for_model(User).pk,
+                        object_id=user.id,
+                        object_repr=user.username,
+                        action_flag=ADDITION)
+            user = authenticate(request=request, username=username, password=password)
 
             if user is not None:
                 if user.is_active:
-                    login(request, user)
+                    login(request, user)         
                     return redirect("catalog_index")
 
         return render(request, self.template_name, {
@@ -112,6 +119,14 @@ def book_details(request, book_id):
             review.book = book
             review.profile = profile
             review.save()
+            current_review = Review.objects.get(id=review.id)
+            LogEntry.objects.log_action(
+                user_id=request.user.id,
+                content_type_id=ContentType.objects.get_for_model(Review).pk,
+                object_id=current_review.id,
+                object_repr=current_review.book.title,
+                action_flag=CHANGE,
+                change_message="Added review \""+current_review.text+"\"")
             return redirect('book_details', book_id)
 
     else:
@@ -154,6 +169,13 @@ def reserve_book(request, book_id):
                 if i.current_profile != None:
                     i.past_profiles.add(i.current_profile)
                 i.current_profile = request.user.profile
+                LogEntry.objects.log_action(
+                    user_id=request.user.id,
+                    content_type_id=ContentType.objects.get_for_model(BookInstance).pk,
+                    object_id=i.id,
+                    object_repr=i.book.title,
+                    action_flag=CHANGE,
+                    change_message="Reserved Instance " + str(i.id))
                 i.save()
                 break
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -175,10 +197,17 @@ def profile(request):
             if check_authentication:
                 user.set_password(new_password)   
                 user.save()
-                login_user = authenticate(username=user.username, password=new_password)
+                login_user = authenticate(request=request, username=user.username, password=new_password)
                 if user is not None:
                     if user.is_active:
-                        login(request, user)
+                        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                        LogEntry.objects.log_action(
+                            user_id=user.id,
+                            content_type_id=ContentType.objects.get_for_model(User).pk,
+                            object_id=user.id,
+                            object_repr=user.username,
+                            action_flag=CHANGE,
+                            change_message="Changed password")
                         return redirect('profile')
             else:
                 form.add_error('current_password', "Password is incorrect")
