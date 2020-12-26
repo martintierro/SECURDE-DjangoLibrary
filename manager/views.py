@@ -184,14 +184,16 @@ def view_book_instance_details(request, bookinstance_id):
         book_instance_form = BookInstanceForm(request.POST, instance=selected_book_instance)
         selected_book = None
 
-        print(book_instance_form.is_valid())
         if book_instance_form.is_valid():
             if request.POST.get('book_id') is not None:
-                selected_book = get_object_or_404(Book, pk=request.POST.get('book_id'))
-            
-            book_instance = book_instance_form.save(commit=False)
-            book_instance.book = selected_book
-            book_instance.save()
+                selected_book = get_object_or_404(Book, pk=request.POST.get('book_id'))     
+                book_instance = book_instance_form.save(commit=False)
+                status = book_instance_form.cleaned_data['status']
+                book_instance.book = selected_book
+                if status == 'a':
+                    book_instance.past_profiles.add(book_instance.current_profile)
+                    book_instance.current_profile = None
+                book_instance.save()
 
             return redirect('book_instances')
 
