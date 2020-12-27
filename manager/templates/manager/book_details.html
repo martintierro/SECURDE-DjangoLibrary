@@ -51,6 +51,9 @@
                                 <div class="form-group">
                                     <label>Title</label>
                                     {{book_form.title}}
+                                    {% for error in book_form.title.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -89,6 +92,9 @@
                                 <div class="form-group">
                                     <label>Year of Publication</label>
                                     {{book_form.year}}
+                                    {% for error in book_form.year.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-"></div>
@@ -96,6 +102,9 @@
                                 <div class="form-group">
                                     <label>ISBN</label>
                                     {{book_form.isbn}}
+                                    {% for error in book_form.isbn.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>

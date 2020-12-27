@@ -125,9 +125,6 @@ class ResetPasswordForm(UserCreationForm):
     def clean_current_password(self, *args, **kwargs):
         current_password = self.cleaned_data.get('current_password')
 
-        if not current_password:
-            raise ValidationError("Input current password")
-
         if self.current_password_flag == False:
             raise ValidationError("Incorrect current password")
 

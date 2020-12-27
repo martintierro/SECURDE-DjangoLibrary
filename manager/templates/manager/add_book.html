@@ -51,6 +51,9 @@
                                 <div class="form-group">
                                     <label>Title</label>
                                     {{book_form.title}}
+                                    {% for error in book_form.title.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -69,6 +72,15 @@
                                             <button onclick="addAuthor()" class="btn btn-sm btn-primary" type="button">Add</button>
                                         </span>
                                     </div>
+                                    {% for error in author_form.first_name.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
+                                    {% for error in author_form.last_name.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
+                                    {% for error in author_form.non_field_errors%}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -85,18 +97,21 @@
                                 <div class="form-group">
                                     <label>First Name</label>
                                     {{author_form.first_name}}
+                                    {% for error in author_form.first_name.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Last Name</label>
                                     {{author_form.last_name}}
+                                    {% for error in author_form.last_name.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
-                        {% for error in author_form.non_field_errors%}
-                            <p class="card-description"><code>{{error}}</code></p>
-                        {% endfor %}
                         <div id="select_publisher" class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -112,6 +127,9 @@
                                             <button onclick="addPublisher()" class="btn btn-sm btn-primary" type="button">Add</button>
                                         </span>
                                     </div>
+                                    {% for error in publisher_form.name.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -123,6 +141,9 @@
                                         <i class="mdi mdi-arrow-left" style="font-size:0.7rem; color:#008AC1;" onmouseover='this.style.color="#025677"' onmouseout='this.style.color="#008AC1"'>&nbsp;&nbsp;Back to select</i>
                                     </button>
                                     {{publisher_form.name}}
+                                    {% for error in publisher_form.name.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -131,6 +152,9 @@
                                 <div class="form-group">
                                     <label>Year of Publication</label>
                                     {{book_form.year}}
+                                    {% for error in book_form.year.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-"></div>
@@ -138,6 +162,9 @@
                                 <div class="form-group">
                                     <label>ISBN</label>
                                     {{book_form.isbn}}
+                                    {% for error in book_form.isbn.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>

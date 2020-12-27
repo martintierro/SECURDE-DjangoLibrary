@@ -6,7 +6,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 import re 
 
-
 class ManagerUserForm(UserCreationForm):
     # username = forms.CharField(max_length=50, widget=forms.TextInput(
     #     attrs={'class': 'form-control', 'placeholder': 'Username'}), label="Username")
@@ -32,7 +31,7 @@ class ManagerUserForm(UserCreationForm):
         self.fields['password2'].widget.attrs['class'] = 'form-control'
         self.fields['username'].widget.attrs['placeholder'] = 'Username'
         self.fields['password1'].widget.attrs['placeholder'] = 'Password'
-        self.fields['password2'].widget.attrs['placeholder'] = 'Password'
+        self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
 
     def clean_email(self):
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
@@ -88,7 +87,6 @@ class ManagerProfileForm (forms.ModelForm):
             raise ValidationError("ID Number should be 8 digits")
         return id_number
 
-
 class ResetPasswordForm(UserCreationForm):
     current_password_flag = True #Used to raise the validation error when it is set to False
     current_password = forms.CharField(widget=forms.PasswordInput(
@@ -105,16 +103,12 @@ class ResetPasswordForm(UserCreationForm):
         self.fields['password1'].widget.attrs['placeholder'] = 'New Password'
         self.fields['password2'].widget.attrs['placeholder'] = 'Confirm New Password'
     
-    
     def set_current_password_flag(self): 
         self.current_password_flag = False
         return 0
 
     def clean_current_password(self, *args, **kwargs):
         current_password = self.cleaned_data.get('current_password')
-
-        if not current_password:
-            raise ValidationError("Input current password")
 
         if self.current_password_flag == False:
             raise ValidationError("Incorrect current password")

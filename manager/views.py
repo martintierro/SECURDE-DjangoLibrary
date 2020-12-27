@@ -53,7 +53,7 @@ def add_book(request):
         if book_form.is_valid():
             if request.POST.get('author_id') is not None:
                 selected_author = get_object_or_404(Author, pk=request.POST.get('author_id'))
-            elif author_form.is_valid() and author_form.has_changed():
+            elif author_form.has_changed() and author_form.is_valid():
                 author = author_form.save(commit=False)
                 first_name = author_form.cleaned_data['first_name']
                 last_name = author_form.cleaned_data['last_name']
@@ -65,7 +65,7 @@ def add_book(request):
            
             if request.POST.get('publisher_id') is not None:
                 selected_publisher = get_object_or_404(Publisher, pk=request.POST.get('publisher_id'))
-            elif publisher_form.is_valid() and publisher_form.has_changed():
+            elif publisher_form.has_changed() and publisher_form.is_valid() :
                 publisher_object = publisher_form.save(commit=False)
                 publisher_name = publisher_form.cleaned_data['name']
                 publisher_object.name = publisher_name
@@ -95,8 +95,6 @@ def add_book(request):
                     object_repr=current_book.title,
                     action_flag=ADDITION)
                 return redirect('manager_index')
-        else:
-            return redirect('add_book')
 
     else:
         book_form = BookForm()
@@ -139,6 +137,8 @@ def add_book_instance(request):
                     action_flag=CHANGE,
                     change_message="Added Instance "+ str(current_book_instance.id))
                 return redirect('book_instances')
+            else:
+                book_instance_form.add_error('status', 'Select a book')
 
     else:
         book_instance_form = BookInstanceForm()
@@ -184,8 +184,6 @@ def view_book_details(request, book_id):
                     action_flag=CHANGE,
                     change_message="Edited Book Details")
                 return redirect('manager_index')
-        else:
-            return redirect('view_book_details')
 
     else:
         book_form = BookForm(instance=selected_book)
@@ -240,13 +238,18 @@ def view_book_instance_details(request, bookinstance_id):
 @user_passes_test(lambda u: u.groups.filter(name='Managers').exists(), login_url=reverse_lazy('login'))
 def change_password(request):
     template = loader.get_template('manager/change_password.html')
+    
     if request.method == 'POST':
         form = ResetPasswordForm(request.POST)
+
+        if request.user.check_password('{}'.format(request.POST.get("current_password"))) == False:
+            form.set_current_password_flag()
+
         if form.is_valid():
             user = request.user
             current_password = form.cleaned_data['current_password']
-            new_password = form.cleaned_data['new_password']
-            confirm_new_password = form.cleaned_data['confirm_new_password']
+            new_password = form.cleaned_data['password1']
+            confirm_new_password = form.cleaned_data['password2']
             check_authentication = check_password(current_password, user.password)
 
             if check_authentication:
@@ -264,8 +267,6 @@ def change_password(request):
                     if user.is_active:
                         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                         return redirect('manager_index')
-            else:
-                form.add_error('current_password', "Password is incorrect")
 
     else:
         form = ResetPasswordForm()

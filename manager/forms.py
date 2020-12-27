@@ -3,29 +3,40 @@ from catalog.models import *
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
+import re 
 
-class ResetPasswordForm(forms.ModelForm):
-
+class ResetPasswordForm(UserCreationForm):
+    current_password_flag = True #Used to raise the validation error when it is set to False
     current_password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': 'Current Password',}), label = "Current Password")
-    new_password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': 'New Password',}), label = "New Password")
-    confirm_new_password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control', 'placeholder': 'Confirm New Password',}), label = "Confirm New Password")
+    # new_password = forms.CharField(widget=forms.PasswordInput(
+    #     attrs={'class': 'form-control', 'placeholder': 'New Password',}), label = "New Password")
+    # confirm_new_password = forms.CharField(widget=forms.PasswordInput(
+    #     attrs={'class': 'form-control', 'placeholder': 'Confirm New Password',}), label = "Confirm New Password")
 
     class Meta:
         model = User
-        fields = ['current_password', 'new_password', 'confirm_new_password']
+        fields = ['current_password', 'password1', 'password2']
     
-    def clean(self):
-        cleaned_data = super(ResetPasswordForm, self).clean()
-        new_password = cleaned_data.get("new_password")
-        confirm_new_password = cleaned_data.get("confirm_new_password")
+    def __init__(self, *args, **kwargs):
+        super(ResetPasswordForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
+        self.fields['password1'].widget.attrs['placeholder'] = 'New Password'
+        self.fields['password2'].widget.attrs['placeholder'] = 'Confirm New Password'
+    
+    def set_current_password_flag(self): 
+        self.current_password_flag = False
+        return 0
 
-        if new_password != confirm_new_password:
-            self.add_error('confirm_password', "Password does not match")
+    def clean_current_password(self, *args, **kwargs):
+        current_password = self.cleaned_data.get('current_password')
 
-        return cleaned_data
+        if self.current_password_flag == False:
+            raise ValidationError("Incorrect current password")
+
+        return current_password
 
 class BookForm(forms.ModelForm):
     title = forms.CharField(max_length=200, widget=forms.TextInput(
@@ -39,6 +50,31 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = ['title', 'year', 'isbn']
 
+    def clean_title(self):
+        title = self.cleaned_data['title']
+        if len(title) < 2:
+            raise ValidationError("Book Title is too short")
+        if len(title) > 200:
+            raise ValidationError("Book Title is too long")
+        return title
+    
+    def clean_year(self):
+        year = self.cleaned_data['year']
+        if year.isdigit() is False:
+            raise ValidationError("Year must only contain numbers")
+        if len(year) > 4:
+            raise ValidationError("Invalid year")
+        return year
+
+    def clean_isbn(self):
+        isbn = self.cleaned_data['isbn']
+        if isbn.isdigit() is False:
+            raise ValidationError("ISBN must only contain numbers")
+        if len(isbn) != 13:
+            raise ValidationError("ISBN should be 13 digits")
+        return isbn
+
+
 class AuthorForm(forms.ModelForm):
     first_name = forms.CharField(max_length=100, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'First Name'}), required=False)
@@ -49,8 +85,27 @@ class AuthorForm(forms.ModelForm):
         model = Author
         fields = ['first_name', 'last_name']
     
+    def clean_first_name(self):
+        first_name = self.cleaned_data['first_name']
+        if len(first_name) < 2 and len(first_name) > 0:
+            raise ValidationError("Author First Name is too short")
+        if len(first_name) > 30:
+            raise ValidationError("Author First Name is too long")
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data['last_name']
+        if len(last_name) < 2 and len(last_name) > 0:
+            raise ValidationError("Author Last Name is too short")
+        if len(last_name) > 30:
+            raise ValidationError("Author Last Name is too long")
+        return last_name
+    
     def clean(self):
         cleaned_data = super(AuthorForm, self).clean()
+        
+        if (cleaned_data.get('first_name') == '' and cleaned_data.get('last_name') == '') or (cleaned_data.get('first_name') == '' and cleaned_data.get('last_name') == ''):
+            raise ValidationError('Please fill out the empty author field')
         if (cleaned_data.get('first_name') == '' and cleaned_data.get('last_name') != '') or (cleaned_data.get('first_name') != '' and cleaned_data.get('last_name') == ''):
             raise ValidationError('Please fill out the empty author field')
 
@@ -62,6 +117,16 @@ class PublisherForm(forms.ModelForm):
     class Meta:
         model = Publisher
         fields = ['name']
+    
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if len(name) == 0:
+            raise ValidationError("Input Publisher")
+        if len(name) < 2:
+            raise ValidationError("Publisher Name is too short")
+        if len(name) > 200:
+            raise ValidationError("Publisher Name is too long")
+        return name
 
 STATUS = [
     ('a', 'Available'),

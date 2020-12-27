@@ -58,6 +58,9 @@
                                             {% endfor %}
                                         </select>
                                     </div>
+                                    {% for error in book_instance_form.status.errors %}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
