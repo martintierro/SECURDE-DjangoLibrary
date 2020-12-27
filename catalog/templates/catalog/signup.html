@@ -12,34 +12,23 @@
         {% for field in profile_form %}
           <div class="form-item-container mx-auto">
             {{field}}
+            <div class="error-container mx-auto">
+              {% for error in field.errors %}
+              <div class="font-weight-light text-justify error mx-auto">{{error}}</div>   
+              {% endfor %}
+            </div>
           </div>
         {% endfor %}
         {% for field in user_form %}
           <div class="form-item-container mx-auto">
             {{field}}
+            <div class="error-container mx-auto">
+              {% for error in field.errors %}
+              <div class="font-weight-light text-justify error mx-auto">{{error}}</div>   
+              {% endfor %}
+            </div>
           </div>
         {% endfor %}
-          <!-- <div class="has-float-label mx-auto">
-            <input class="form-control form-item" name="id_number" type="text" placeholder="ID"/>
-          </div>
-          <div class="has-float-label mx-auto">
-            <input class="form-control form-item" name="username" type="text" placeholder="USERNAME"/>
-          </div>
-          <div class="has-float-label mx-auto">
-            <input class="form-control form-item" name="first_name" type="text" placeholder="FIRSTNAME"/>
-          </div>
-          <div class="has-float-label mx-auto">
-            <input class="form-control form-item" name="last_name" type="text" placeholder="LASTNAME"/>
-          </div>
-          <div class="has-float-label mx-auto">
-            <input class="form-control form-item" name="email" type="email" placeholder="EMAIL"/>
-          </div>
-          <div class="has-float-label mx-auto">
-            <input class="form-control form-item" name="password" type="password" placeholder="PASSWORD"/>
-          </div>
-          <div class="has-float-label mx-auto">
-            <input class="form-control form-item" type="password" placeholder="CONFIRM PASSWORD"/>
-          </div> -->
         <button type="submit" class="p-3 btn submit-button" id="registerBTN" style="margin-top:10px">REGISTER</button>
       </div>
     </div>

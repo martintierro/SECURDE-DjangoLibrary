@@ -1,35 +1,72 @@
 from django.contrib.auth.models import User
 from .models import *
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
+import re 
 
-
-class UserForm(forms.ModelForm):
-    username = forms.CharField(max_length=50, widget=forms.TextInput(
-        attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'USERNAME'}))
+class UserForm(UserCreationForm):
+    # username = forms.CharField(max_length=50, widget=forms.TextInput(
+    #     attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'USERNAME'}))
     first_name = forms.CharField(max_length=50, widget=forms.TextInput(
         attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'FIRSTNAME'}))
     last_name = forms.CharField(max_length=50, widget=forms.TextInput(
         attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'LASTNAME'}))
     email = forms.EmailField(max_length=50, widget=forms.TextInput(
         attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'EMAIL'}))
-    password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'PASSWORD'}))
-    confirm_password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'CONFIRM PASSWORD'}))
+    # password = forms.CharField(widget=forms.PasswordInput(
+    #     attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'PASSWORD'}))
+    # confirm_password = forms.CharField(widget=forms.PasswordInput(
+    #     attrs={'class': 'form-control form-item mx-auto', 'placeholder': 'CONFIRM PASSWORD'}))
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
-    def clean(self):
-        cleaned_data = super(UserForm, self).clean()
-        password = cleaned_data.get("password")
-        confirm_password = cleaned_data.get("confirm_password")
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['class'] = 'form-control form-item mx-auto'
+        self.fields['password1'].widget.attrs['class'] = 'form-control form-item mx-auto'
+        self.fields['password2'].widget.attrs['class'] = 'form-control form-item mx-auto'
+        self.fields['username'].widget.attrs['placeholder'] = 'USERNAME'
+        self.fields['password1'].widget.attrs['placeholder'] = 'PASSWORD'
+        self.fields['password2'].widget.attrs['placeholder'] = 'CONFIRM PASSWORD'
+    
+    def clean_email(self):
+        regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+        email = self.cleaned_data['email']
+        if(not re.search(regex,email)): 
+            raise ValidationError("Input a valid email address")
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("Email already exists")
+        
+        return email
 
-        if password != confirm_password:
-            self.add_error('confirm_password', "Password does not match")
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("Username already exists")
+        if len(username) < 2:
+            raise ValidationError("Username is too short")
+        if len(username) > 30:
+            raise ValidationError("Username is too long")
+        return username
+    
+    def clean_first_name(self):
+        first_name = self.cleaned_data['first_name']
+        if len(first_name) < 2:
+            raise ValidationError("First Name is too short")
+        if len(first_name) > 30:
+            raise ValidationError("First Name is too long")
+        return first_name
 
-        return cleaned_data
+    def clean_last_name(self):
+        last_name = self.cleaned_data['last_name']
+        if len(last_name) < 2:
+            raise ValidationError("Last Name is too short")
+        if len(last_name) > 30:
+            raise ValidationError("Last Name is too long")
+        return last_name
 
 
 class ProfileForm (forms.ModelForm):
@@ -42,6 +79,15 @@ class ProfileForm (forms.ModelForm):
         model = Profile
         fields = ['id_number']
 
+    def clean_id_number(self):
+        id_number = self.cleaned_data['id_number']
+        if id_number.isdigit() is False:
+            raise ValidationError("ID Number must only contain numbers")
+        if len(id_number) != 8:
+            raise ValidationError("ID Number should be 8 digits")
+        return id_number
+
+
 
 class LoginForm(forms.ModelForm):
     username = forms.CharField(max_length=50)
@@ -52,27 +98,25 @@ class LoginForm(forms.ModelForm):
         fields = ['username', 'password']
 
 
-class ResetPasswordForm(forms.ModelForm):
+class ResetPasswordForm(UserCreationForm):
     current_password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control form-change-item', 'placeholder': 'CURRENT PASSWORD'}))
-    new_password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control form-change-item', 'placeholder': 'NEW PASSWORD'}))
-    confirm_new_password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control form-change-item', 'placeholder': 'CONFIRM NEW PASSWORD'}))
+    # new_password = forms.CharField(widget=forms.PasswordInput(
+    #     attrs={'class': 'form-control form-change-item', 'placeholder': 'NEW PASSWORD'}))
+    # confirm_new_password = forms.CharField(widget=forms.PasswordInput(
+    #     attrs={'class': 'form-control form-change-item', 'placeholder': 'CONFIRM NEW PASSWORD'}))
 
     class Meta:
         model = User
-        fields = ['current_password', 'new_password', 'confirm_new_password']
-    
-    def clean(self):
-        cleaned_data = super(ResetPasswordForm, self).clean()
-        new_password = cleaned_data.get("new_password")
-        confirm_new_password = cleaned_data.get("confirm_new_password")
+        fields = ['current_password', 'password1', 'password2']
 
-        if new_password != confirm_new_password:
-            self.add_error('confirm_password', "Password does not match")
+    def __init__(self, *args, **kwargs):
+        super(ResetPasswordForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].widget.attrs['class'] = 'form-control form-change-item'
+        self.fields['password2'].widget.attrs['class'] = 'form-control form-change-item'
+        self.fields['password1'].widget.attrs['placeholder'] = 'NEW PASSWORD'
+        self.fields['password2'].widget.attrs['placeholder'] = 'CONFIRM NEW PASSWORD'
 
-        return cleaned_data
 
 class ReviewForm(forms.ModelForm):
     text = forms.CharField(max_length=1000, widget=forms.Textarea(

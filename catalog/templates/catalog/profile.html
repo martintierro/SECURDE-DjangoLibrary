@@ -58,13 +58,18 @@
                     <button class="btn dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Change Password
                     </button>
-                    <div class="dropdown-menu w-100" style="padding:0px; border:none">
+                    <div class="dropdown-menu show w-100" style="padding:0px; border:none">
                         <form action="{% url 'profile' %}" style="margin:0" method="POST">
                             <div class="my-auto" style="padding:15px">
                                 {% csrf_token %}
                                 {% for field in reset_password_form %}
                                     <div class="change-password-label mx-auto align-self-center">
                                         {{field}}
+                                        <div class="error-container mx-auto">
+                                            {% for error in field.errors %}
+                                            <div class="font-weight-light text-justify user-change-password-error mx-auto">{{error}}</div>   
+                                            {% endfor %}
+                                        </div>
                                     </div>
                                 {% endfor%}
                             </div>

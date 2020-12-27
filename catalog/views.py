@@ -71,7 +71,7 @@ class SignupView(View):
             # cleaned (normalized) data
             id_number = profile_form.cleaned_data['id_number']
             username = user_form.cleaned_data['username']
-            password = user_form.cleaned_data['password']
+            password = user_form.cleaned_data['password1']
             first_name = user_form.cleaned_data['first_name']
             last_name = user_form.cleaned_data['last_name']
             email = user_form.cleaned_data['email']
@@ -190,8 +190,8 @@ def profile(request):
             user = request.user
 
             current_password = form.cleaned_data['current_password']
-            new_password = form.cleaned_data['new_password']
-            confirm_new_password = form.cleaned_data['confirm_new_password']
+            new_password = form.cleaned_data['password1']
+            confirm_new_password = form.cleaned_data['password2']
             check_authentication = check_password(current_password, user.password)
 
             if check_authentication:
