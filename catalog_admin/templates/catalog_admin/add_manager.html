@@ -61,6 +61,9 @@
                                 <div class="form-group">
                                     <label>First Name</label>
                                     {{manager_user_form.first_name}}
+                                    {% for error in manager_user_form.first_name.errors%}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-"></div>
@@ -68,6 +71,9 @@
                                 <div class="form-group">
                                     <label>Last Name</label>
                                     {{manager_user_form.last_name}}
+                                    {% for error in manager_user_form.last_name.errors%}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -76,6 +82,9 @@
                                 <div class="form-group">
                                     <label>Email Address</label>
                                     {{manager_user_form.email}}
+                                    {% for error in manager_user_form.email.errors%}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -84,6 +93,9 @@
                                 <div class="form-group">
                                     <label>ID Number</label>
                                     {{manager_profile_form.id_number}}
+                                    {% for error in manager_profile_form.id_number.errors%}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-"></div>
@@ -91,6 +103,9 @@
                                 <div class="form-group">
                                     <label>Username</label>
                                     {{manager_user_form.username}}
+                                    {% for error in manager_user_form.username.errors%}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -98,14 +113,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Password</label>
-                                    {{manager_user_form.password}}
+                                    {{manager_user_form.password1}}
+                                    {% for error in manager_user_form.password2.errors%}
+                                        <p class="card-description"><code>{{error}}</code></p>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="col-"></div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Confirm Password</label>
-                                    {{manager_user_form.confirm_password}}
+                                    {{manager_user_form.password2}}
+                                    
                                 </div>
                             </div>
                         </div>

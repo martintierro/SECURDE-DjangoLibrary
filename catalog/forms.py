@@ -99,6 +99,7 @@ class LoginForm(forms.ModelForm):
 
 
 class ResetPasswordForm(UserCreationForm):
+    current_password_flag = True #Used to raise the validation error when it is set to False
     current_password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control form-change-item', 'placeholder': 'CURRENT PASSWORD'}))
     # new_password = forms.CharField(widget=forms.PasswordInput(
@@ -116,6 +117,21 @@ class ResetPasswordForm(UserCreationForm):
         self.fields['password2'].widget.attrs['class'] = 'form-control form-change-item'
         self.fields['password1'].widget.attrs['placeholder'] = 'NEW PASSWORD'
         self.fields['password2'].widget.attrs['placeholder'] = 'CONFIRM NEW PASSWORD'
+    
+    def set_current_password_flag(self): 
+        self.current_password_flag = False
+        return 0
+
+    def clean_current_password(self, *args, **kwargs):
+        current_password = self.cleaned_data.get('current_password')
+
+        if not current_password:
+            raise ValidationError("Input current password")
+
+        if self.current_password_flag == False:
+            raise ValidationError("Incorrect current password")
+
+        return current_password
 
 
 class ReviewForm(forms.ModelForm):
