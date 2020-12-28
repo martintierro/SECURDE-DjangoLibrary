@@ -10,7 +10,7 @@ Step 1:
 
 Step 2:
 - 
-- Open the directory and double click the '**run.bat file**'
+- Open the directory and double click the '**run.bat**' file
 
 Step 3:
 - 
