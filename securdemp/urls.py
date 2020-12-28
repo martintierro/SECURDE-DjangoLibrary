@@ -24,8 +24,8 @@ urlpatterns = [
     path('catalog/', include('catalog.urls')),
     path('admin/', include('catalog_admin.urls')),
     path('manager/', include('manager.urls')),
-    path('django-admin/', admin.site.urls),
-    path('django-manager/', library_manager_site.urls),
+    # path('django-admin/', admin.site.urls),
+    # path('django-manager/', library_manager_site.urls),
     path('', include('authentication.urls'))
 ]
 
