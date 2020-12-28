@@ -14,8 +14,6 @@ class CustomPasswordValidator():
             raise ValidationError(_('Password must contain uppercase and lowercase letters'))
         if not any(char in special_characters for char in password):
             raise ValidationError(_('Password must contain at least %(min_length)d special character.') % {'min_length': self.min_length})
-        if len(password) < 8:
-            raise ValidationError("Password must be at least 8 characters long")
 
     def get_help_text(self):
         return ""
