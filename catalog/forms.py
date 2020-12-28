@@ -85,6 +85,8 @@ class ProfileForm (forms.ModelForm):
             raise ValidationError("ID Number must only contain numbers")
         if len(id_number) != 8:
             raise ValidationError("ID Number should be 8 digits")
+        if Profile.objects.filter(id_number=id_number).exists():
+            raise ValidationError("ID Number already exists")
         return id_number
 
 
