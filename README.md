@@ -16,8 +16,9 @@ Step 3:
 - 
 - Open your preferred web browser and enter '**localhost:8000**' or '**127.0.0.1:8000**' 
 - Default credentials are the following: 
+
 |     Username    |     Password    |
-| --------------- | --------------- |
+|:---------------:|:---------------:|
 |   '**admin**'   |'**Delasalle1!**'| 
 
 Thanks for reading! 
