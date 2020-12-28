@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 import re 
+from django.db.models import Q
 
 class ResetPasswordForm(UserCreationForm):
     current_password_flag = True #Used to raise the validation error when it is set to False
@@ -108,6 +109,12 @@ class AuthorForm(forms.ModelForm):
             raise ValidationError('Please fill out the empty author field')
         if (cleaned_data.get('first_name') == '' and cleaned_data.get('last_name') != '') or (cleaned_data.get('first_name') != '' and cleaned_data.get('last_name') == ''):
             raise ValidationError('Please fill out the empty author field')
+        
+        criterion1 = Q(first_name=cleaned_data.get('first_name'))
+        criterion2 = Q(last_name=cleaned_data.get('last_name'))
+
+        if Author.objects.filter(criterion1 & criterion2).exists():
+            raise ValidationError("Author already exists")
 
 
 class PublisherForm(forms.ModelForm):
@@ -126,6 +133,9 @@ class PublisherForm(forms.ModelForm):
             raise ValidationError("Publisher Name is too short")
         if len(name) > 200:
             raise ValidationError("Publisher Name is too long")
+        if Publisher.objects.filter(name=name).exists():
+            raise ValidationError("Publisher already exists")
+
         return name
 
 STATUS = [
